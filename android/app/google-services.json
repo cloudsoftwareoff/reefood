@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837297773076",
+    "project_id": "reefoodtn",
+    "storage_bucket": "reefoodtn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837297773076:android:cd7fb254e2388bf0eb2501",
+        "android_client_info": {
+          "package_name": "com.example.reefood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl4RQDZ_84be52L5BHeoskdffcaFE6z1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

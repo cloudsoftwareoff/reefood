@@ -1,19 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:reefood/app_localizations.dart';
 import 'package:reefood/firebase_options.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
-import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
-import 'package:reefood/screens/splash/welcome.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:reefood/screens/home/welcome_page.dart';
 import 'package:reefood/wrapper.dart';
+import 'package:reefood/screens/home/welcome_page.dart';
 
 
 void main() async{
-  await Firebase.initializeApp(
+    WidgetsFlutterBinding.ensureInitialized(); // <----
+    await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
   runApp(

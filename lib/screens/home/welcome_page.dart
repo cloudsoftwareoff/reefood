@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:reefood/components/auth_comp.dart';
+// import 'package:reefood/components/auth_comp.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
           return false;
         },
         child: const Center(
-          child: ScreenTitle(
-            title: 'HomePage',
+          child: Text(
+             'HomePage',
           ),
         ),
       ),

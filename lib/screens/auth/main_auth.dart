@@ -79,7 +79,7 @@ class AuthScreen extends StatelessWidget {
                             icon: CircleAvatar(
                               radius: 25,
                               child: Image.asset(
-                                  'assets/images/icons/facebook.png'),
+                                  'assets/img/facebook.png'),
                             ),
                           ),
                           IconButton(
@@ -88,17 +88,10 @@ class AuthScreen extends StatelessWidget {
                               radius: 25,
                               backgroundColor: Colors.transparent,
                               child:
-                                  Image.asset('assets/images/icons/google.png'),
+                                  Image.asset('assets/img/google.png'),
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: CircleAvatar(
-                              radius: 25,
-                              child: Image.asset(
-                                  'assets/images/icons/linkedin.png'),
-                            ),
-                          ),
+                        
                         ],
                       )
                     ],

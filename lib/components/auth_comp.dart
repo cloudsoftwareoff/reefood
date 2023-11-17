@@ -94,10 +94,10 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 8,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 2.5,
           color: kTextColor,

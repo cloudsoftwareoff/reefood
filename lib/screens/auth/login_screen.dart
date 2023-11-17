@@ -7,6 +7,7 @@ import 'package:reefood/components/auth_comp.dart';
 import 'package:reefood/constants.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/splash/welcome.dart';
+import 'package:reefood/services/users/userAuth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -78,17 +79,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               _saving = true;
                             });
                             try {
-                              await _auth.signInWithEmailAndPassword(
-                                  email: _email, password: _password);
-
-                              if (context.mounted) {
-                                setState(() {
-                                  _saving = false;
-                                  Navigator.popAndPushNamed(
-                                      context, LoginScreen.id);
-                                });
-                                Navigator.pushNamed(context,'/home');
-                              }
+                              RegistrationResult? result = await AuthService().signInWithEmailAndPassword(_email, _password);
+                              
+                              if (result != null && result.user != null){
+                                // Login success
+                                if(context.mounted){
+                                   Navigator.popAndPushNamed(context,'/home');
+                           
+                                }
+                              }else if (result!.error != null) {
+                // Registration failed
+                  if(context.mounted){
+                  showAlert(
+                                    context: context,
+                                    title: 'Login Failed',
+                                    desc:
+                                        '${result.error}',
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }).show();
+      }       }
+                              
+                              
+                              
+                            
                             } catch (e) {
                               signUpAlert(
                                 context: context,
@@ -99,9 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.popAndPushNamed(
                                       context, LoginScreen.id);
                                 },
-                                title: 'WRONG PASSWORD OR EMAIL',
+                                title: 'Login Failed',
                                 desc:
-                                    'Confirm your email and password and try again',
+                                    'Something went wrong',
                                 btnText: 'Try Now',
                               ).show();
                             }

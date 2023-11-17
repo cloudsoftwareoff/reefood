@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,8 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reefood/components/auth_comp.dart';
 
 import 'package:reefood/constants.dart';
+import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
+import 'package:reefood/services/api/ip_lookup.dart';
+import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/userAuth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,8 +25,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
   late String _email;
-  late String _password;
-  late String _confirmPass;
+  late String _name;
+  late String _pass;
   bool _saving = false;
 
   @override
@@ -39,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const TopScreenImage(screenImageName: 'signup.png'),
+                  const TopScreenImage(screenImageName: 'logo.png'),
                   Expanded(
                     flex: 2,
                     child: Padding(
@@ -68,13 +73,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textField: TextField(
                               obscureText: true,
                               onChanged: (value) {
-                                _password = value;
+                                _name = value;
                               },
                               style: const TextStyle(
                                 fontSize: 20,
                               ),
                               decoration: kTextInputDecoration.copyWith(
-                                hintText: 'Password',
+                                hintText: 'Name',
                               ),
                             ),
                           ),
@@ -82,13 +87,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textField: TextField(
                               obscureText: true,
                               onChanged: (value) {
-                                _confirmPass = value;
+                                _pass = value;
                               },
                               style: const TextStyle(
                                 fontSize: 20,
                               ),
                               decoration: kTextInputDecoration.copyWith(
-                                hintText: 'Confirm Password',
+                                hintText: 'Password',
                               ),
                             ),
                           ),
@@ -101,29 +106,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               setState(() {
                                 _saving = true;
                               });
-                              if (_confirmPass == _password) {
-                                try {
-                                  await _auth.createUserWithEmailAndPassword(
-                                      email: _email, password: _password);
+                            
+              try {
+                  RegistrationResult? result = await AuthService().registerWithEmailAndPassword(_email, _pass);
+                  if (result !=null && result.user != null) {
 
-                                  if (context.mounted) {
-                                    signUpAlert(
-                                      context: context,
-                                      title: 'GOOD JOB',
-                                      desc: 'Go login now',
-                                      btnText: 'Login Now',
-                                      onPressed: () {
-                                        setState(() {
-                                          _saving = false;
-                                          Navigator.popAndPushNamed(
-                                              context, SignUpScreen.id);
-                                        });
-                                        Navigator.pushNamed(
-                                            context, LoginScreen.id);
-                                      },
-                                    ).show();
-                                  }
+                  // Registration successful
+                  if (context.mounted) {
+    
+                      final String userlocation = await getUserLocation();
+
+                      UserProfile newUserProfile = UserProfile(
+                      uid: FirebaseAuth.instance.currentUser!.uid, 
+                        fullname: _name,
+                        pfp: 'default',
+                        bio: 'Hello, I am a new user!',
+                        phone: '',
+                        last_active: Timestamp.now(),
+                        
+                        location: userlocation,
+                            );
+
+                    await UserProfileProvider().addUserToFirestore(newUserProfile);
+                      if(context.mounted){
+                          Navigator.popAndPushNamed(
+                                              context, '/home');
+                              
+                          }}
+                  
+                  
+                  
+                  } else if (result!.error != null) {
+                // Registration failed
+                  if(context.mounted){
+                  showAlert(
+                                    context: context,
+                                    title: 'Signup Failed',
+                                    desc:
+                                        '${result.error}',
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }).show();
+      }       }
+  
+                                  
                                 } catch (e) {
+                    if (context.mounted){              
                                   signUpAlert(
                                       context: context,
                                       onPressed: () {
@@ -133,16 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       desc: 'Close the app and try again',
                                       btnText: 'Close Now');
                                 }
-                              } else {
-                                showAlert(
-                                    context: context,
-                                    title: 'WRONG PASSWORD',
-                                    desc:
-                                        'Make sure that you write the same password twice',
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }).show();
-                              }
+                                }
                             },
                             questionPressed: () async {
                               Navigator.pushNamed(context, LoginScreen.id);

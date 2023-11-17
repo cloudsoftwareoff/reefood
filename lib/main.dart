@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:reefood/app_localizations.dart';
 import 'package:reefood/firebase_options.dart';
+import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
+import 'package:reefood/services/users/XUser.dart';
 
 import 'package:reefood/wrapper.dart';
 import 'package:reefood/screens/home/welcome_page.dart';
@@ -16,7 +19,10 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
 );
   runApp(
-    MyApp()
+    ChangeNotifierProvider(
+      create: (context) => UserProfileProvider(),
+      child: MyApp(),
+    ),
   );
 }
 class MyApp extends StatelessWidget {
@@ -67,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
+        '/editprofile': (context) => EditProfilePage(),
       
      
    

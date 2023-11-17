@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/home/welcome_page.dart';
+import 'package:reefood/screens/splash/welcome.dart';
 
 class Wrapper extends StatelessWidget {
 
@@ -20,6 +21,6 @@ bool isUserLoggedIn()  {
 
     
     // return home or auth
-    return  !isUserLoggedIn() ? AuthScreen() : HomePage();
+    return  !isUserLoggedIn() ? WelcomeScreen() : HomePage();
   }
 }

@@ -6,6 +6,7 @@ import 'package:reefood/app_localizations.dart';
 import 'package:reefood/firebase_options.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
+import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
 import 'package:reefood/services/users/XUser.dart';
 
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
    '/':(context) => Wrapper(),
      
         '/home': (context) => HomePage(),
+        '/auth' : (context) => AuthScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         '/editprofile': (context) => EditProfilePage(),

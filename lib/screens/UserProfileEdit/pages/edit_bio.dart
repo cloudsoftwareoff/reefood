@@ -16,12 +16,12 @@ class EditDescriptionFormPage extends StatefulWidget {
 
 class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController descriptionController;
+  final descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    descriptionController = TextEditingController(text: widget.initialBio);
+    descriptionController.text = widget.initialBio;
   }
 
   @override
@@ -58,6 +58,7 @@ class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
                 width: 350,
                 child: TextFormField(
                   initialValue: widget.initialBio,
+                  controller: descriptionController,
                   validator: (value) {
                     if (value == null ||
                         value.isEmpty ||
@@ -66,7 +67,6 @@ class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
                     }
                     return null;
                   },
-                  controller: descriptionController,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
                     alignLabelWithHint: true,

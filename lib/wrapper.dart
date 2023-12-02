@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
+import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/screens/home/welcome_page.dart';
 import 'package:reefood/screens/splash/welcome.dart';
 
@@ -21,6 +22,6 @@ bool isUserLoggedIn()  {
 
     
     // return home or auth
-    return  !isUserLoggedIn() ? WelcomeScreen() : HomePage();
+    return  !isUserLoggedIn() ? WelcomeScreen() : HomeScreen();
   }
 }

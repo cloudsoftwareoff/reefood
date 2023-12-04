@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:foodpanda_user/address/screens/address_screen.dart';
@@ -10,14 +11,41 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reefood/colors.dart';
 import 'package:reefood/components/alert_dialog.dart';
+import 'package:reefood/model/user_profile.dart';
 
 class MyDrawer extends StatelessWidget {
   final BuildContext parentContext;
   const MyDrawer({super.key, required this.parentContext});
 
+Future<UserProfile?> userProfileById(String id) async {
+
+  // Fetch a specific user profile from Firestore based on the provided ID
+  final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+      await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: id).get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    final doc = querySnapshot.docs.first;
+    final data = doc.data();
+    
+    // Return the UserProfile for the user with the specified ID
+    return UserProfile(
+      uid: doc.id,
+      fullname: data['fullname'],
+      pfp: data['pfp'],
+      bio: data['bio'],
+      phone: data['phone'],
+      location: data['location'],
+      last_active: data['last_active'],
+    );
+  } else {
+    // Return null if no user with the specified ID is found
+    return null;
+  }
+}
+ 
   @override
   Widget build(BuildContext context) {
-  
+
 
     return Drawer(
       child: ListView(
@@ -30,55 +58,48 @@ class MyDrawer extends StatelessWidget {
                 color: scheme.primary,
                 border: Border.all(color: scheme.primary),
               ),
-              child: true
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 40,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'F',
-                              style: TextStyle(
-                                color: scheme.primary,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Text(
-                         'ReeFood',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        Scaffold.of(c).closeDrawer();
-                       // showAuthenticationModal(parentContext);
-                      },
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+              child: FutureBuilder<UserProfile?>(
+                future: userProfileById(FirebaseAuth.instance.currentUser!.uid),
+                builder:(context,snapshot){
+                if (snapshot.connectionState == ConnectionState.waiting) {
+              return  Text('Loading...');
+            } else if (snapshot.hasError) {
+              return Text('Error');
+            } else if (!snapshot.hasData || snapshot.data == null) {
+              return Text('Unknown');
+            } else {
+                
+                UserProfile myself= snapshot.data!;
+                return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Container(
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                             child: CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(myself.pfp),),
+                            ),
+                          ),
                           Text(
-                            'Sign up/Log in',
-                            style: TextStyle(
+                           myself.fullname,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
-                      )),
+                      );
+            }}
+                 
+              )
+              
+            
             );
           }),
           true

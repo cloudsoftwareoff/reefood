@@ -18,13 +18,15 @@ import 'package:flutter/material.dart';
 // import 'package:foodpanda_user/shop_details/screens/shop_details.dart';
 // import 'package:foodpanda_user/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:reefood/model/shop.dart';
 import 'package:reefood/screens/home/widgets/appbar.dart';
 import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
+import 'package:reefood/screens/home/widgets/restaurant_card.dart';
 import 'package:reefood/services/location_provider.dart';
 import 'package:reefood/colors.dart';
 class HomeScreen extends StatefulWidget {
-  static const String routeName = '/home-screen';
+  static const String routeName = '/home';
 
   const HomeScreen({super.key});
 
@@ -39,9 +41,50 @@ class _HomeScreenState extends State<HomeScreen> {
 //   LocationInfo? locationInfo;
 late Future<LocationInfo> locationInfoFuture;
  bool isLoading=false;
+ List<Shop> shops = [
+  Shop(
+    uid: '1',
+    shopName: 'Super Mart',
+    shopDescription: 'Your one-stop shop for groceries',
+    remainingTime: 30,
+    deliveryPrice: 5.0,
+    shopImage: 'https://i.pinimg.com/564x/ee/ea/10/eeea10febce8246179b3bc04210e63b5.jpg',
+    rating: 4.5,
+    totalRating: 200.0,
+    houseNumber: '123',
+    street: 'Main Street',
+    area: 'City Center',
+    latitude: 40.7128,
+    longitude: -74.0060,
+    province: 'State',
+    floor: 'Ground Floor',
+    isApproved: true,
+  ),
+  Shop(
+    uid: '2',
+    shopName: 'Fashion World',
+    shopDescription: 'Trendy clothes and accessories',
+    remainingTime: 45,
+    deliveryPrice: 8.0,
+    shopImage: 'https://i.pinimg.com/564x/1e/8e/4d/1e8e4d783be73f4d265fda6d45ac4dc9.jpg',
+    rating: 4.2,
+    totalRating: 150.0,
+    houseNumber: '456',
+    street: 'Fashion Avenue',
+    area: 'Style District',
+    latitude: 34.0522,
+    longitude: -118.2437,
+    province: 'California',
+    floor: 'First Floor',
+    isApproved: true,
+  ),
+  // Add more dummy shops as needed
+];
+
   @override
   void initState() {
     super.initState();
+    
     getLocationInfo();
     
   }
@@ -55,7 +98,8 @@ late Future<LocationInfo> locationInfoFuture;
       return await locationProvider.getLocation();
     } catch (e) {
       print("Error getting location: $e");
-      return LocationInfo(isCurrentLocation: false, address: "Error getting location");
+      return LocationInfo(isCurrentLocation: false, city: "Error getting location",
+      gov: "Error getting location");
     }
   }
  //final LocationInfo? locationInfo = await locationProvider.getLocation();
@@ -72,6 +116,7 @@ late Future<LocationInfo> locationInfoFuture;
             body: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
+                  
                 
              
                 MyAppBar(
@@ -88,20 +133,39 @@ late Future<LocationInfo> locationInfoFuture;
               LocationInfo locationInfo = snapshot.data!;
               return Text(
                 locationInfo.isCurrentLocation
-                    ? 'Current Location'
-                    : locationInfo.address.isNotEmpty
-                        ? locationInfo.address
-                        : 'Unknown Street',
+                    ? locationInfo.city
+                    : locationInfo.city.isNotEmpty
+                        ? locationInfo.city
+                        : 'Unknown City',
               );
             }
           },
         ),
       
   subtitle: 
-  // !locationInfo!.isCurrentLocation && locationInfo!.address.isEmpty
-  //     ? 'Unknown Province'
-  //     :
-       'un', // Add your logic for province here
+ FutureBuilder<LocationInfo>(
+          future: getLocationInfo(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return  Text('Loading...');
+            } else if (snapshot.hasError) {
+              return Text('Error');
+            } else if (!snapshot.hasData || snapshot.data == null) {
+              return Text('Unknown');
+            } else {
+
+              LocationInfo locationInfo = snapshot.data!;
+              return Text(
+                locationInfo.isCurrentLocation
+                    ? locationInfo.gov
+                    : locationInfo.gov.isNotEmpty
+                        ? locationInfo.gov
+                        : 'Unknown Gov',
+              );
+            }
+          },
+        ),
+       // Add your logic for province here
 
                   
                    onTap: () async {
@@ -122,62 +186,66 @@ late Future<LocationInfo> locationInfoFuture;
                     );
                   }),
                 ),
-                // SliverToBoxAdapter(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Container(
-                //         padding: const EdgeInsets.all(15),
-                //         color: Colors.grey[200],
-                //         child: buildCollage(context, height),
-                //       ),
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           const SizedBox(height: 20),
-                //           const Padding(
-                //             padding: EdgeInsets.symmetric(horizontal: 15),
-                //             child: Text(
-                //               'Popular Restaurants',
-                //               style: TextStyle(
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.bold,
-                //               ),
-                //             ),
-                //           ),
-                //           const SizedBox(height: 15),
-                //           SizedBox(
-                //               height: height * 0.3,
-                //               child: ListView.builder(
-                //                 physics: const BouncingScrollPhysics(),
-                //                 shrinkWrap: true,
-                //                 scrollDirection: Axis.horizontal,
-                //                 itemCount: shops.length,
-                //                 itemBuilder: (context, index) {
-                //                   final shop = shops[index];
+                
+            SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        color: Colors.grey[200],
+                        child: buildCollage(context, height),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Text(
+                              'Food near you',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          SizedBox(
+                              height: height * 0.3,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: shops.length,
+                                itemBuilder: (context, index) {
+                                  final shop = shops[index];
 
-                //                   return Row(
-                //                     children: [
-                //                       SizedBox(width: index == 0 ? 15 : 0),
-                //                       GestureDetector(
-                //                         onTap: () => getMenu(shop),
-                //                         child: RestaurantCard(shop: shop),
-                //                       ),
-                //                       SizedBox(
-                //                           width: index == shops.length - 1
-                //                               ? 15
-                //                               : 10),
-                //                     ],
-                //                   );
-                //                 },
-                //               ))
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                // ),
+                                  return Row(
+                                    children: [
+                                      SizedBox(width: index == 0 ? 15 : 0),
+                                      GestureDetector(
+                                        //onTap: () => getMenu(shop),
+                                        child: RestaurantCard(shop: shop),
+                                      ),
+                                      SizedBox(
+                                          width: index == shops.length - 1
+                                              ? 15
+                                              : 10),
+                                    ],
+                                  );
+                                },
+                              ))
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
+              
             ),
+            
+            
             bottomNavigationBar: 
             // op.currentOrder != null
             //     ? const ActiveOrderBottomContainer()
@@ -200,7 +268,7 @@ late Future<LocationInfo> locationInfoFuture;
               height: height * 0.20,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.pink,
+                color: scheme.primary,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey[300]!),
               ),
@@ -212,7 +280,7 @@ late Future<LocationInfo> locationInfoFuture;
                     right: 5,
                     child: Image(
                       width: 150,
-                      image: AssetImage('assets/images/food_delivery.png'),
+                      image: AssetImage('assets/img/view.jpg'),
                     ),
                   ),
                   Padding(
@@ -265,7 +333,7 @@ late Future<LocationInfo> locationInfoFuture;
                         right: 20,
                         child: Image(
                           width: 100,
-                          image: AssetImage('assets/images/shops.png'),
+                          image: AssetImage('assets/img/view.jpg'),
                         ),
                       ),
                       Padding(
@@ -317,8 +385,11 @@ late Future<LocationInfo> locationInfoFuture;
                             bottom: 10,
                             right: 0,
                             child: Image(
-                              width: 100,
-                              image: AssetImage('assets/images/pick_up.png'),
+                              fit: BoxFit.fill,
+                              //width: 100,
+                              image: NetworkImage(
+                                
+                                'https://i.pinimg.com/564x/e6/80/32/e6803216f6ebbb31ce03485d977b9d54.jpg'),
                             ),
                           ),
                           Padding(
@@ -366,7 +437,7 @@ late Future<LocationInfo> locationInfoFuture;
                             right: 0,
                             child: Image(
                               width: 55,
-                              image: AssetImage('assets/images/pandasend.png'),
+                              image: AssetImage('assets/img/view.jpg'),
                             ),
                           ),
                           Padding(
@@ -377,7 +448,7 @@ late Future<LocationInfo> locationInfoFuture;
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'pandasend',
+                                  'reefoood',
                                   style: TextStyle(
                                     color: MyColors.textColor,
                                     fontWeight: FontWeight.bold,

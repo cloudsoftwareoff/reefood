@@ -27,7 +27,7 @@ class RestaurantCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
                   fit: BoxFit.cover,
-                  height: height * 0.2,
+                  height: height * 0.15,
                   width: double.infinity,
                   image: NetworkImage(shop.shopImage),
                 ),
@@ -43,11 +43,11 @@ class RestaurantCard extends StatelessWidget {
                       bottomRight: Radius.circular(20),
                     ),
                   ),
-                  child: const Padding(
+                  child:  Padding(
                     padding:
                         EdgeInsets.only(top: 7, left: 5, right: 10, bottom: 7),
                     child: Text(
-                      'Featured',
+                      ' ${shop.remainingTime} min',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -68,13 +68,21 @@ class RestaurantCard extends StatelessWidget {
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text(
-                      ' ${shop.remainingTime} min',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        // fontFamily: boldFont,
-                      ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 10,
+                          foregroundImage: NetworkImage("https://i.pinimg.com/564x/63/32/07/633207abb7de1997ccbdbe5734eba108.jpg"),
+                        ),
+                        Text(
+                          ' ${shop.shopName} ',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            // fontFamily: boldFont,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -86,14 +94,32 @@ class RestaurantCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                shop.shopName,
+                
+                shop.shopDescription,
+                maxLines: 1,
                 style: const TextStyle(
-                  // color: MyColors.appBarTextColor,
+                  color: Color.fromRGBO(50, 50, 50, 1),
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   // fontFamily: boldFont,
                 ),
               ),
+              
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '\$ • ${shop.shopDescription}',
+            style: const TextStyle(
+              // color: MyColors.secondaryIconColor,
+              fontSize: 12,
+              // fontFamily: regularFont,
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
               Row(
                 children: [
                   RatingBarIndicator(
@@ -110,54 +136,29 @@ class RestaurantCard extends StatelessWidget {
                   Text(
                     shop.rating.toString(),
                     style: const TextStyle(
-                      // color: MyColors.appBarTextColor,
+                     color: MyColors.appBarTextColor,
                       fontSize: 12,
-                      // fontFamily: boldFont,
+                      fontWeight:FontWeight.bold ,
                     ),
                   ),
                   const SizedBox(width: 5),
+                  Container(
+                //height: 50, // Set the height as needed
+                width: 2, // Set the width to control the thickness of the divider
+                color: Colors.grey,
+                margin: EdgeInsets.symmetric(horizontal: 8.0),
+              ),
+              const SizedBox(width: 5),
                   Text(
-                    '(${shop.totalRating})',
+                    shop.deliveryPrice.toString(),
                     style: const TextStyle(
-                      // color: MyColors.secondaryIconColor,
+                     color: MyColors.appBarTextColor,
                       fontSize: 12,
-                      // fontFamily: lightFont,
+                      fontWeight:FontWeight.bold ,
                     ),
                   ),
                 ],
               )
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            '\$ • ${shop.shopDescription}',
-            style: const TextStyle(
-              // color: MyColors.secondaryIconColor,
-              fontSize: 12,
-              // fontFamily: regularFont,
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.directions_bike,
-                size: 14,
-                color: scheme.primary,
-              ),
-              const SizedBox(width: 5),
-              Text(
-                shop.deliveryPrice != 0
-                    ? '\$ ${shop.deliveryPrice}'
-                    : 'Free delivery',
-                style: TextStyle(
-                  color:
-                      shop.deliveryPrice != 0 ? Colors.black : scheme.primary,
-                  fontSize: 12,
-                  // fontFamily: regularFont,
-                ),
-              ),
             ],
           )
         ],

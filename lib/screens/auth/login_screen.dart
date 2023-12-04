@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const TopScreenImage(screenImageName: 'welcome.png'),
+                  const TopScreenImage(screenImageName: 'logo.png'),
                   Expanded(
                     flex: 2,
                     child: Column(

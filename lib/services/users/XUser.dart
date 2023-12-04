@@ -161,8 +161,8 @@ class UserProfileProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-Future<UserProfile?> userProfileById(String id) async {
-  print("$id");
+  Future<UserProfile?> userProfileById(String id) async {
+
   // Fetch a specific user profile from Firestore based on the provided ID
   final QuerySnapshot<Map<String, dynamic>> querySnapshot =
       await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: id).get();
@@ -236,17 +236,17 @@ Future<UserProfile?> userProfileById(String id) async {
 
   Future<UserProfile?> getCachedUserByUid(String uid) async {
     // Logic to retrieve the user from cache or fetch it if not available
-    UserProfile? cachedUser = await UserProfile.getCachedUserByUid(uid);
-
-    if (cachedUser != null) {
-      return cachedUser;
-    } else {
-      // Fetch the user from Firestore or another source
-      // For example: UserProfile user = await fetchUserFromFirestore(uid);
-      // Cache the user
-      // UserProfile.saveUserToCache(user);
-      return null; // Return the fetched user or null if not found
-    }
+    
+    return userProfileById(uid);
+    // if (cachedUser != null) {
+    //   return cachedUser;
+    // } else {
+    //   // Fetch the user from Firestore or another source
+    //   // For example: UserProfile user = await fetchUserFromFirestore(uid);
+    //   // Cache the user
+    //   // UserProfile.saveUserToCache(user);
+    //   return null; // Return the fetched user or null if not found
+    // }
   }
 
   //  static Future<UserProfile?> getCurrentUserFromPrefs() async {

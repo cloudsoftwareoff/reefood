@@ -43,22 +43,27 @@ class LocationProvider {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
-
-        String address = "${placemark.street}, ${placemark.locality}, ${placemark.administrativeArea}";
+//${placemark.street},
+        String address = " ${placemark.locality}";
+        String govs ="${placemark.administrativeArea}";
 
         return LocationInfo(
           isCurrentLocation: true,
-          address: address,
+          city: address,
+          gov: govs
         );
       } else {
         return LocationInfo(
           isCurrentLocation: true,
-          address: "Unknown Address",
+          city: "Unknown City",
+          gov: "Unknown administrativeArea"
         );
       }
     } catch (e) {
       print("Error getting location: $e");
-      return LocationInfo(isCurrentLocation: false, address: "Error getting location");
+      return LocationInfo(isCurrentLocation: false, city: "Error getting location",
+      gov: "Error getting location"
+      );
     }
   }
 }
@@ -67,7 +72,8 @@ class LocationProvider {
 
 class LocationInfo {
   final bool isCurrentLocation;
-  final String address;
+  final String city;
+  final String gov;
 
-  LocationInfo({required this.isCurrentLocation, required this.address});
+  LocationInfo({required this.isCurrentLocation, required this.city ,required this.gov});
 }

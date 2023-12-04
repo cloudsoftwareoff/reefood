@@ -71,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           CustomTextField(
                             textField: TextField(
-                              obscureText: true,
+                           
                               onChanged: (value) {
                                 _name = value;
                               },

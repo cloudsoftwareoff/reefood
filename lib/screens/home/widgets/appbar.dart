@@ -8,7 +8,7 @@ class MyAppBar extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Widget title;
-  final String? subtitle;
+  final Widget subtitle;
   final Builder? leadingIcon;
   final VoidCallback? onTap;
 
@@ -17,7 +17,7 @@ class MyAppBar extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
    required this.title,
-    this.subtitle,
+   required this.subtitle,
     this.leadingIcon,
     this.onTap,
   });
@@ -114,8 +114,8 @@ class MyAppBar extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              subtitle ?? '320 St. 320',
+       
+              subtitle ?? Text('320 St. 320',
               style: const TextStyle(
                 fontSize: 12,
               ),

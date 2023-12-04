@@ -8,6 +8,7 @@ import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
+import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/services/users/XUser.dart';
 
 import 'package:reefood/wrapper.dart';
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
    routes: {
    '/':(context) => Wrapper(),
      
-        '/home': (context) => HomePage(),
+        '/home': (context) => HomeScreen(),
         '/auth' : (context) => AuthScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),

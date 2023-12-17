@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:reefood/components/auth_comp.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
+import 'package:reefood/services/users/userAuth.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -83,7 +84,9 @@ class AuthScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              AuthService().SignInGoogle();
+                            },
                             icon: CircleAvatar(
                               radius: 25,
                               backgroundColor: Colors.transparent,

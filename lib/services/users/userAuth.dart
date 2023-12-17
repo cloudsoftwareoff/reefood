@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class RegistrationResult {
@@ -69,6 +70,25 @@ String xerror = "Something went wrong";
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  SignInGoogle() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Google_SignOut() async {
+    try {
+      await _googleSignIn.signOut();
+    } catch (error) {
+      print(error);
+    }
+  }
+
 }
 
 String getErrorMessage(String errorCode) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:reefood/app_localizations.dart';
+import 'package:reefood/colors.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
-import 'package:reefood/screens/splash/items.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   double currentPage = 0.0;
   final _pageViewController = new PageController();
-
+ 
   @override
   void initState() {
     super.initState();
@@ -52,9 +54,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // Handle navigation after the last page
-      // For example, you can navigate to the home screen
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AuthScreen()));
+                
     }
   }
 
@@ -83,13 +84,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 30.0),
                       child: Column(
-                        children: <Widget>[
+                        children: <Widget>[(
                           Text(item['header'],
-                              style: TextStyle(
-                                  fontSize: 50.0,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color(0XFF3F3D56),
-                                  height: 2.0)),
+                          style: GoogleFonts.roboto(fontSize: 40.0,
+                           fontWeight: FontWeight.bold,
+                                  color: scheme.primary,
+                            
+                          ),
+                              
+                                 
+                                  )),
                           Text(
                             item['description'],
                             style: TextStyle(
@@ -163,12 +167,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: _navigateToNext,
-                      child: Text(
-                        'Next',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
+  style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.pressed)) {
+          // Color when the button is pressed
+          return Colors.black.withOpacity(0.8);
+        }
+        // Default color
+        return Colors.greenAccent;
+      },
+    ),
+  ),
+  onPressed: _navigateToNext,
+  child: Text(
+    'Next',
+    style: TextStyle(fontSize: 16),
+  ),
+)
+
                   ],
                 ),
               ),

@@ -1,23 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:foodpanda_user/address/screens/address_screen.dart';
-// import 'package:foodpanda_user/authentication/widgets/authentication_modal.dart';
 
-// import 'package:foodpanda_user/order_history/screens/order_history_screen.dart';
-// import 'package:foodpanda_user/providers/authentication_provider.dart';
-// import 'package:foodpanda_user/voucher/screens/voucher_screen.dart';
-
-import 'package:provider/provider.dart';
 import 'package:reefood/colors.dart';
 import 'package:reefood/components/alert_dialog.dart';
 import 'package:reefood/model/user_profile.dart';
+import 'package:reefood/screens/auth/main_auth.dart';
+import 'package:reefood/services/users/XUser.dart';
 
 class MyDrawer extends StatelessWidget {
   final BuildContext parentContext;
   const MyDrawer({super.key, required this.parentContext});
 
-Future<UserProfile?> userProfileById(String id) async {
+Future<UserProfile?> xuserProfileById(String id) async {
 
   // Fetch a specific user profile from Firestore based on the provided ID
   final QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -59,7 +54,7 @@ Future<UserProfile?> userProfileById(String id) async {
                 border: Border.all(color: scheme.primary),
               ),
               child: FutureBuilder<UserProfile?>(
-                future: userProfileById(FirebaseAuth.instance.currentUser!.uid),
+                future: UserProfileProvider().userProfileById(FirebaseAuth.instance.currentUser!.uid),
                 builder:(context,snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting) {
               return  Text('Loading...');
@@ -209,7 +204,7 @@ Future<UserProfile?> userProfileById(String id) async {
                           action1Name: 'Cancel',
                           action2Name: 'Log out',
                           action1Func: () {
-                            Navigator.pop(ctx);
+                            Navigator.popAndPushNamed(ctx,'/');
                           },
                           action2Func: () {
                             FirebaseAuth.instance.signOut();

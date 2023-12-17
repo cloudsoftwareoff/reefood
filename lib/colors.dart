@@ -9,7 +9,7 @@ const ColorScheme scheme = ColorScheme(
   onSurface: Color(0xFF1E1E1E),
   onPrimary: Color(0xFFFFFFFF),
   onSecondary: Color(0xFFFFFFFF),
-  primaryContainer: Color(0xFFC63065),
+  primaryContainer: Color.fromARGB(255, 48, 198, 63),
   secondaryContainer: Color(0xFF000000),
   error: Color(0xFFE74C3C),
   onError: Color(0xFFFFFFFF),
@@ -17,7 +17,7 @@ const ColorScheme scheme = ColorScheme(
 );
 
 class MyColors {
-  static const Color primary = Color(0xFFC63065);
+  static const Color primary = Color.fromARGB(255, 48, 198, 78);
   static const Color secondaryTextColor = Color(0xff707070);
   static const Color backgroundColor = Color.fromARGB(255, 252, 252, 252);
   static const Color textColor = Colors.black;

@@ -28,26 +28,37 @@ class LoadingHomeScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 SkeletonSkimming(width: double.infinity, height: 150),
                 SizedBox(height: 15),
-                Row(
-                  children: [
-                    Expanded(
-                        child: SkeletonSkimming(
-                            width: double.infinity, height: 300)),
-                    SizedBox(width: 15),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SkeletonSkimming(width: double.infinity, height: 200),
-                        SizedBox(height: 15),
-                        SkeletonSkimming(width: double.infinity, height: 85),
-                      ],
-                    )),
-                  ],
-                )
+                Foodshimmer()
               ],
             ),
           ),
         ));
+  }
+}
+
+class Foodshimmer extends StatelessWidget {
+  const Foodshimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            child: SkeletonSkimming(
+                width: double.infinity, height: 300)),
+        SizedBox(width: 15),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SkeletonSkimming(width: double.infinity, height: 200),
+            SizedBox(height: 15),
+            SkeletonSkimming(width: double.infinity, height: 85),
+          ],
+        )),
+      ],
+    );
   }
 }

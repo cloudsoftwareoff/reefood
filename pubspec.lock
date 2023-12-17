@@ -397,6 +397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      sha256: f0b8d115a13ecf827013ec9fc883390ccc0e87a96ed5347a3114cac177ef18e8
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -557,6 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  loading_overlay:
+    dependency: "direct main"
+    description:
+      name: loading_overlay
+      sha256: a4dd5a790e0d60568d4c684e46eed00de883db0dc660f90ffd583aca8f4a1d91
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   matcher:
     dependency: transitive
     description:
@@ -717,6 +733,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  scroll_to_index:
+    dependency: "direct main"
+    description:
+      name: scroll_to_index
+      sha256: b707546e7500d9f070d63e5acf74fd437ec7eeeb68d3412ef7b0afada0b4f176
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   shared_preferences:
     dependency: "direct main"
     description:

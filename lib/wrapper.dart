@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:reefood/screens/home/home_screen.dart';
-import 'package:reefood/screens/home/welcome_page.dart';
 import 'package:reefood/screens/splash/welcome.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({Key? key}) : super(key: key);
 
-   Wrapper({super.key});
-bool isUserLoggedIn()  {
-  
-  User? user = FirebaseAuth.instance.currentUser;
+  Future<bool> hasSeenWelcomeScreen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('hasSeenWelcomeScreen') ?? false;
+  }
 
-  return user != null;
-}
+  void markWelcomeScreenSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('hasSeenWelcomeScreen', true);
+  }
 
+  bool isUserLoggedIn() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user != null;
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: hasSeenWelcomeScreen(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          bool hasSeenWelcomeScreen = snapshot.data ?? false;
 
-
-    
-    // return home or auth
-    return  !isUserLoggedIn() ? WelcomeScreen() : HomeScreen();
+          if (!hasSeenWelcomeScreen) {
+            markWelcomeScreenSeen();
+            // Show welcome screen
+            return WelcomeScreen();
+          } else {
+            // Return home or auth
+            return !isUserLoggedIn() ? AuthScreen() : HomeScreen();
+          }
+        } else {
+          // Show loading indicator or another placeholder widget
+          return CircularProgressIndicator();
+        }
+      },
+    );
   }
 }

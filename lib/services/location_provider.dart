@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationProvider {
   Future<bool> handleLocationPermission( BuildContext context) async {
@@ -43,7 +44,7 @@ class LocationProvider {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
-//${placemark.street},
+        saveLocationToSharedPreferences(position.latitude, position.longitude);
         String address = " ${placemark.locality}";
         String govs ="${placemark.administrativeArea}";
 
@@ -61,13 +62,17 @@ class LocationProvider {
       }
     } catch (e) {
       print("Error getting location: $e");
-      return LocationInfo(isCurrentLocation: false, city: "Error getting location",
-      gov: "Error getting location"
+      return LocationInfo(isCurrentLocation: false, city: "Please Enable GPS",
+      gov: "Please Enable GPS"
       );
     }
   }
 }
-
+void saveLocationToSharedPreferences(double latitude, double longitude) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('latitude', latitude);
+    prefs.setDouble('longitude', longitude);
+  }
 
 
 class LocationInfo {

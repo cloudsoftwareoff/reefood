@@ -73,7 +73,19 @@ void saveLocationToSharedPreferences(double latitude, double longitude) async {
     prefs.setDouble('latitude', latitude);
     prefs.setDouble('longitude', longitude);
   }
-
+Future<String?> getLocationfromcords(double latitude,double longitude) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+     
+          return "${place.name}, ${place.locality}, ${place.country}";
+       
+      }
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
 
 class LocationInfo {
   final bool isCurrentLocation;

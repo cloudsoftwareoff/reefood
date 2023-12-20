@@ -40,6 +40,9 @@ dependencies:
   cloud_firestore: ^4.13.1
   google_sign_in: ^6.1.6
   scroll_to_index: ^3.0.1
+  rect_getter: any
+  flutter_map: ^6.1.0
+  
 
   geolocator: ^10.1.0
   geocoding: ^2.1.1

@@ -22,7 +22,7 @@ class FoodCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return Card(
-      elevation: 2,
+      elevation: 4,
       child: FutureBuilder<Business>(
         future: BusinessDB().getBusinessById(food.business_id),
         builder:(context,snapshot){
@@ -38,7 +38,7 @@ class FoodCard extends StatelessWidget {
             double distance =calculateDistance(
               business.latitude, business.longitude,
               user_position.latitude, user_position.longitude);
-           // Postion businesslocal = getlo
+          
           return SizedBox(
           
           height: height * 0.3,
@@ -90,7 +90,7 @@ class FoodCard extends StatelessWidget {
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: 
-          Row(
+                  Row(
                           children: [
                             CircleAvatar(
                               radius: 20,

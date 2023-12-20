@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reefood/functions/sharedpref.dart';
 import 'package:reefood/model/food.dart';
+import 'package:reefood/screens/home/widgets/NoFood.dart';
 import 'package:reefood/screens/home/widgets/appbar.dart';
 import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
 import 'package:reefood/screens/home/widgets/food_card.dart';
+import 'package:reefood/screens/produtDetail/food_details.dart';
 import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
 import 'package:reefood/colors.dart';
@@ -35,7 +37,7 @@ bool isLoading=false;
     getLocationInfo();
     
   }
-final lp = "context.watch<LocationProvider>();";
+
   
 
   Future<LocationInfo> getLocationInfo() async {
@@ -96,9 +98,9 @@ final lp = "context.watch<LocationProvider>();";
                 
                   return Text(
                     locationInfo.isCurrentLocation
-                        ? locationInfo.city
+                        ? "${locationInfo.city} ${locationInfo.gov}"
                         : locationInfo.city.isNotEmpty
-                            ? locationInfo.city
+                            ? "${locationInfo.city} ${locationInfo.gov}"
                             : 'Unknown City',
                   );
                 }
@@ -118,12 +120,12 @@ final lp = "context.watch<LocationProvider>();";
                 } else {
                       
                   LocationInfo locationInfo = snapshot.data!;
-                  return Text(
-                    locationInfo.isCurrentLocation
-                        ? locationInfo.gov
-                        : locationInfo.gov.isNotEmpty
-                            ? locationInfo.gov
-                            : 'Unknown Gov',
+                  return Text("Within 10km"
+                    // locationInfo.isCurrentLocation
+                    //     ? locationInfo.gov
+                    //     : locationInfo.gov.isNotEmpty
+                    //         ? locationInfo.gov
+                    //         : 'Unknown Gov',
                   );
                 }
                           },
@@ -204,7 +206,13 @@ final lp = "context.watch<LocationProvider>();";
                     children: [
                       SizedBox(width: index == 0 ? 15 : 0),
                       GestureDetector(
-                        // onTap: () => getMenu(fooditem),
+                         onTap: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => 
+        FoodDetailsScreen(food: fooditem,user_position: mypostion,),
+      ),
+    ),
                         child: FoodCard(food: fooditem,user_position: mypostion,),
                       ),
                       SizedBox(
@@ -241,6 +249,7 @@ final lp = "context.watch<LocationProvider>();";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        NoFood(),
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: InkWell(

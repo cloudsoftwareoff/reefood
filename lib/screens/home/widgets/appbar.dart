@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 import 'package:reefood/colors.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -107,19 +104,9 @@ class MyAppBar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           title ?? Text(
-               'Home',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-       
-              subtitle ?? Text('320 St. 320',
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
+          title ,
+      
+              subtitle 
           ],
         ),
       ),

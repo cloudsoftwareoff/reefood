@@ -8,7 +8,7 @@ import 'package:string_validator/string_validator.dart';
 // This class handles the Page to edit the Name Section of the User Profile.
 class EditNameFormPage extends StatefulWidget {
   UserProfile myself;
-   EditNameFormPage({Key? key , required this.myself}) : super(key: key);
+    EditNameFormPage({Key? key , required this.myself}) : super(key: key);
 
   @override
   EditNameFormPageState createState() {
@@ -34,7 +34,7 @@ class EditNameFormPageState extends State<EditNameFormPage> {
   }
 
   void updateUserValue() async {
-    // Update the user's name in Firestore
+    
     widget.myself.fullname = nameController.text;
     await UserProfileProvider().addUserToFirestore(widget.myself);
   }
@@ -74,8 +74,8 @@ class EditNameFormPageState extends State<EditNameFormPage> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
-                        } else if (!isAlpha(value)) {
-                          return 'Only letters are allowed';
+                        } else if (value.length <4 || value.length >20) {
+                          return 'Name must be between  4 and 2O chacacter';
                         }
                         return null;
                       },
@@ -94,10 +94,11 @@ class EditNameFormPageState extends State<EditNameFormPage> {
                   width: 330,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
-                        updateUserValue();
+                        //Result result = await UserProfileProvider().updateUserProfile();
+                      updateUserValue();
                         Navigator.pop(context);
                       }
                     },

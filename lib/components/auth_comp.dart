@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reefood/constants.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:reefood/colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CustomButton extends StatelessWidget {
@@ -29,8 +29,8 @@ class CustomButton extends StatelessWidget {
           width: width,
           padding: const EdgeInsets.all(13),
           decoration: BoxDecoration(
-            color: isOutlined ? Colors.white : kTextColor,
-            border: Border.all(color: kTextColor, width: 2.5),
+            color: isOutlined ? Colors.white : scheme.primary,
+            border: Border.all(color: scheme.secondary, width: 2.5),
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
@@ -39,7 +39,7 @@ class CustomButton extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: isOutlined ? kTextColor : Colors.white,
+                color: isOutlined ? scheme.secondary : Colors.white,
               ),
             ),
           ),
@@ -78,7 +78,7 @@ class ScreenTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
+      style: GoogleFonts.poppins(
         fontSize: 40,
         fontWeight: FontWeight.bold,
       ),
@@ -100,7 +100,7 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 2.5,
-          color: kTextColor,
+          color: scheme.primary,
         ),
       ),
       child: textField,

@@ -157,6 +157,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
+                      style: ButtonStyle(
+                       // backgroundColor: scheme.secondary
+                      ),
                       onPressed: () {
                         //Navigator.pushNamed(context, '/auth');
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AuthScreen()));
@@ -175,14 +178,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           return Colors.black.withOpacity(0.8);
         }
         // Default color
-        return Colors.greenAccent;
+        return scheme.primary;
       },
     ),
   ),
   onPressed: _navigateToNext,
   child: Text(
     'Next',
-    style: TextStyle(fontSize: 16),
+    style: TextStyle(fontSize: 16,
+  ),
   ),
 )
 

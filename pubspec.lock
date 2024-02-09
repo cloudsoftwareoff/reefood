@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  dropdown_model_list:
+    dependency: "direct main"
+    description:
+      name: dropdown_model_list
+      sha256: "1306db597fce342497d48136214c55d766d9034dc797b94e43fc0f8606f4602e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   email_validator:
     dependency: "direct main"
     description:
@@ -566,7 +574,7 @@ packages:
     source: hosted
     version: "0.6.7"
   latlong2:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: latlong2
       sha256: "18712164760cee655bc790122b0fd8f3d5b3c36da2cb7bf94b68a197fbb0811b"

@@ -22,7 +22,7 @@ class FoodDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
     
-     child: Scaffold(
+      child: Scaffold(
       backgroundColor: Colors.grey[300],
       body: FutureBuilder<Business>(
         future: BusinessDB().getBusinessById(food.business_id),
@@ -37,10 +37,10 @@ class FoodDetailsScreen extends StatelessWidget {
             Business business = snapshot.data!;
 
           return 
-           SingleChildScrollView(
+          SingleChildScrollView(
             child:
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 Stack(
@@ -91,26 +91,26 @@ class FoodDetailsScreen extends StatelessWidget {
                 )
 
 ,
-                                ClipRRect(
-  borderRadius: BorderRadius.circular(20),
-  child: Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Colors.grey.shade300, Colors.grey.shade400],
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Icon(
-        Icons.favorite_outline,
-        color: scheme.primary,
-        size: 30,
-      ),
-    ),
-  ),
-)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.grey.shade300, Colors.grey.shade400],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.favorite_outline,
+                          color: scheme.primary,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  )
 
                               ],
                             ),
@@ -146,7 +146,7 @@ class FoodDetailsScreen extends StatelessWidget {
                                     ],
                               ),
                                 
-                                     
+                                    
                                 ),
                               ],
                             ),
@@ -175,16 +175,16 @@ class FoodDetailsScreen extends StatelessWidget {
                     food.title,
                       style:GoogleFonts.poppins(color: scheme.primary,
                       fontSize: 16),
-                         
+                        
                     )
                     ],),
                     
-                   const Text(
+                  const Text(
                       '30 TND',
                       style: TextStyle(
                         decoration:TextDecoration.lineThrough
                       ),
-                     
+                    
                     ),
                   ],
                 )),
@@ -200,7 +200,7 @@ class FoodDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(children: [
-                                 Icon(
+                                Icon(
                       Icons.star,
                       color: scheme.primary,
                       size: 24,
@@ -237,7 +237,7 @@ class FoodDetailsScreen extends StatelessWidget {
                       Text("Pick up: ${food.pickup_time}")
                   ],),
                 ),
-                 Divider(height: 2,
+                  Divider(height: 2,
                         color: Colors.grey[500],
                         thickness: 2,),
                 Padding(
@@ -260,28 +260,28 @@ class FoodDetailsScreen extends StatelessWidget {
                       children: [
                         FutureBuilder<String?>(
                           future: getLocationfromcords(business.latitude, business.longitude),
-                           builder: ((context, snapshot) {
+                            builder: ((context, snapshot) {
                               if (snapshot.hasError) {
                                 return const  Text("no location");
                               }else if (!snapshot.hasData) {
           
-            return const Text('No data available');
-          } else{
-            String? businessLocation = snapshot.data;
-            return Text(businessLocation!,
-            style: TextStyle(
-              color: scheme.primary
-            ),
-            );
-          }
+                return const Text('No data available');
+                    } else{
+                      String? businessLocation = snapshot.data;
+                      return Text(businessLocation!,
+                      style: TextStyle(
+                        color: scheme.primary
+                      ),
+                      );
+                    }
           
-                           }))
+                            }))
                         ,
                         const Text(
                           'More information about the store',
                         
                         ),
-                         
+                          
                       ],
                       
                     ),
@@ -296,11 +296,11 @@ class FoodDetailsScreen extends StatelessWidget {
                 Divider(height: 2,
                         color: Colors.grey[500],
                         thickness: 2,),
-                 Padding(
+                  Padding(
                   padding: const  EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                   child: Text(
                     food.desc,
-                   
+                    
                   ),
                 ),
                 const Text(
@@ -308,32 +308,37 @@ class FoodDetailsScreen extends StatelessWidget {
                   
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextButton(
-                    onPressed: () {
-                      //print('Button pressed ...');
-                    },
-                   child:Text( 'Add to Cart',
-                    style: TextStyle(
-                      
-                      height: 50,
-                        color:  scheme.primary,
-                      
-                      
-                    ),
-                  ),
-                  )
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 24),
+                  child: ElevatedButton(
+  onPressed: () {
+    print('Button pressed ...');
+  },
+  child: Text(
+    'Add to Cart',
+    style: TextStyle(
+      fontFamily: 'Readex Pro',
+      fontSize: 16, // Adjust font size as needed
+    ),
+  ),
+  style: ElevatedButton.styleFrom(
+    minimumSize: Size(150, 40),  // Set desired width and height
+    primary: Colors.blue,  // Set background color
+    onPrimary: Colors.white,  // Set text color
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),  // Adjust border radius
+    ),
+  ),
+),
+
                 ),
               ],
             ),
-         
-         
-         
+
           );
           }
         },
         
-       
+      
       ),
     )
     );

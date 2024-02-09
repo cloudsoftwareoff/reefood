@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reefood/app_localizations.dart';
 import 'package:reefood/firebase_options.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
+import 'package:reefood/screens/auth/choose_location.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
@@ -37,12 +38,12 @@ class MyApp extends StatelessWidget {
 
       supportedLocales: [
     const Locale('en', 'US'), 
-   const Locale('fr', 'FR'), 
+    const Locale('fr', 'FR'), 
     const Locale('ar', 'AR'),
   
     ],
      // These delegates make sure that the localization data for the proper language is loaded
-      localizationsDelegates: [
+      localizationsDelegates: const [
         // THIS CLASS WILL BE ADDED LATER
         // A class which loads the translations from JSON files
         AppLocalizations.delegate,
@@ -60,29 +61,29 @@ class MyApp extends StatelessWidget {
             return supportedLocale;
           }
         }
-       
+        
         // If the locale of the device is not supported, use the first one
         // from the list (English, in this case).
         return supportedLocales.first;
       },
-      locale: Locale('en','US'),
+      locale: const  Locale('en','US'),
       
-     
-   initialRoute: '/',
-   routes: {
-   '/':(context) => Wrapper(),
-     
+      
+    initialRoute: '/',
+    routes: {
+    '/':(context) => Wrapper(),
+      
         '/home': (context) => HomeScreen(),
         '/auth' : (context) => AuthScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         '/editprofile': (context) => EditProfilePage(),
       
-     
-   
+    
+    
 
-   },
-   
+    } ,
+    
   );
 
 

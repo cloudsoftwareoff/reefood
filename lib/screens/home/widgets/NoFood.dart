@@ -12,8 +12,8 @@ class NoFood extends StatefulWidget {
 class _NoFoodState extends State<NoFood> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-                //width: 411,
+    return Container(
+                // width: 411,
                 height: 200,
                 
                 child: Column(

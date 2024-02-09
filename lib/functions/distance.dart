@@ -26,13 +26,3 @@ double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
   return distance;
 }
 
-void main() {
-  // Example usage
-  double lat1 = 37.7749; // Example latitude for San Francisco
-  double lon1 = -122.4194; // Example longitude for San Francisco
-  double lat2 = 34.0522; // Example latitude for Los Angeles
-  double lon2 = -118.2437; // Example longitude for Los Angeles
-
-  double result = calculateDistance(lat1, lon1, lat2, lon2);
-  print("Distance: ${result.toStringAsFixed(2)} km");
-}

@@ -21,7 +21,7 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   
   Future<UserProfile?> userProfileById(String id) async {
-  print("$id");
+
   // Fetch a specific user profile from Firestore based on the provided ID
   final QuerySnapshot<Map<String, dynamic>> querySnapshot =
       await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: id).get();
@@ -70,9 +70,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Text("User profile not found"),
               );
             }else {
-               UserProfile userProfile = snapshot.data!;
-          return Column(
-            children: [
+                UserProfile userProfile = snapshot.data!;
+              return Column(
+              children: [
               AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -101,8 +101,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               buildUserInfoDisplay(userProfile.phone, 'Phone', EditPhoneFormPage(phoneNum: userProfile.phone,)),
               buildUserInfoDisplay(myemail!, 'Email', EditEmailFormPage()),
               Expanded(
-                child: buildAbout(userProfile),
                 flex: 4,
+                child: buildAbout(userProfile),
               )
             ],
           );}

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:reefood/colors.dart';
 import 'package:reefood/components/alert_dialog.dart';
 import 'package:reefood/model/user_profile.dart';
-import 'package:reefood/screens/auth/main_auth.dart';
+import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
+
 import 'package:reefood/services/users/XUser.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -37,7 +38,7 @@ Future<UserProfile?> xuserProfileById(String id) async {
     return null;
   }
 }
- 
+
   @override
   Widget build(BuildContext context) {
 
@@ -65,33 +66,41 @@ Future<UserProfile?> xuserProfileById(String id) async {
             } else {
                 
                 UserProfile myself= snapshot.data!;
-                return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
+                return GestureDetector(
+                  onTap: (){
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfilePage()),
+            );
+                  },
+                  child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 100,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: Center(
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: NetworkImage(myself.pfp),),
+                              ),
                             ),
-                            child: Center(
-                             child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(myself.pfp),),
+                            Text(
+                            myself.fullname,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                          Text(
-                           myself.fullname,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      );
+                          ],
+                        ),
+                );
             }}
-                 
+                
               )
               
             

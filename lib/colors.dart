@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 const ColorScheme scheme = ColorScheme(
-  background: Color(0xFFF6F6F6),
+  background: Color(0xFFF5F5F5),
   surface: Color(0xFFFFFFFF),
-  primary: Color.fromARGB(255, 2, 214, 101),
-  secondary: Color(0xFF1E1E1E),
+  primary: Color(0xFF218644),
+  secondary: Color(0xFFF3B91A),
   onBackground: Color(0xFF1E1E1E),
   onSurface: Color(0xFF1E1E1E),
   onPrimary: Color(0xFFFFFFFF),

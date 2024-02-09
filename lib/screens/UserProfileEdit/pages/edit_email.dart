@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:reefood/components/appbar_widget.dart';
+import 'package:reefood/model/user_profile.dart';
 
 // This class handles the Page to edit the Email Section of the User Profile.
 class EditEmailFormPage extends StatefulWidget {
-  const EditEmailFormPage({Key? key}) : super(key: key);
+  
+  const EditEmailFormPage({Key? key,
+  
+  }) : super(key: key);
 
   @override
   EditEmailFormPageState createState() {
@@ -18,6 +22,13 @@ class EditEmailFormPageState extends State<EditEmailFormPage> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
 
+  @override
+  void initState() {
+    
+    super.initState();
+    
+    emailController.text=FirebaseAuth.instance.currentUser!.email.toString();
+  }
   @override
   void dispose() {
     emailController.dispose();

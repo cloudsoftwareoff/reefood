@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:reefood/functions/distance.dart';
 import 'package:reefood/functions/sharedpref.dart';
+import 'package:reefood/model/business.dart';
 import 'package:reefood/model/food.dart';
+import 'package:reefood/screens/home/widgets/BusinessCard.dart';
 import 'package:reefood/screens/home/widgets/NoFood.dart';
 import 'package:reefood/screens/home/widgets/appbar.dart';
 import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
 import 'package:reefood/screens/home/widgets/food_card.dart';
 import 'package:reefood/screens/produtDetail/food_details.dart';
+import 'package:reefood/services/Food/business_db.dart';
 import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
 import 'package:reefood/colors.dart';
@@ -66,8 +71,8 @@ bool isLoading=false;
         ? const LoadingHomeScreen()
         : SafeArea(
           child: Scaffold(
-            backgroundColor:Colors.grey[300],
-              drawer: MyDrawer(parentContext: context),
+            backgroundColor:scheme.background,
+             // drawer: MyDrawer(parentContext: context),
               body: FutureBuilder<Position>(
                 future: getSavedLocationFromSharedPreferences(),
                   builder:(context,snapshot){
@@ -80,160 +85,112 @@ bool isLoading=false;
                     CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                      
-                    
-                 
-                    MyAppBar(
-                         title: FutureBuilder<LocationInfo>(
-                          future: getLocationInfo(),
-                          builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return   Text('Loading...');
-                } else if (snapshot.hasError) {
-                  return Text('Error');
-                } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Text('Unknown');
-                } else {
-                  LocationInfo locationInfo = snapshot.data!;
                 
-                  return Text(
-                    locationInfo.isCurrentLocation
-                        ? "${locationInfo.city} ${locationInfo.gov}"
-                        : locationInfo.city.isNotEmpty
-                            ? "${locationInfo.city} ${locationInfo.gov}"
-                            : 'Unknown City',
-                  );
-                }
-                          },
-                        ),
-                
-                        subtitle: 
-                      FutureBuilder<LocationInfo>(
-                          future: getLocationInfo(),
-                          builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return  Text('Loading...');
-                } else if (snapshot.hasError) {
-                  return Text('Error');
-                } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Text('Unknown');
-                } else {
-                      
-                  LocationInfo locationInfo = snapshot.data!;
-                  return Text("Within 10km"
-                    // locationInfo.isCurrentLocation
-                    //     ? locationInfo.gov
-                    //     : locationInfo.gov.isNotEmpty
-                    //         ? locationInfo.gov
-                    //         : 'Unknown Gov',
-                  );
-                }
-                          },
-                        ),
-                 // Add your logic for province here
-                      
-                      
-                       onTap: () async {
-                        // List<Address> addressList =
-                        //     await AddressController().fetchAddressArray();
-                        // addressList.removeWhere((element) {
-                        //   return element.id == lp.address!.id;
-                        // });
-                        // showSelectAddressModal(context, addressList);
-                      },
-                      leadingIcon: Builder(builder: (context) {
-                        return IconButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          icon: const Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                          ),
-                        );
-                      }),
-                    ),
-                    
                 SliverToBoxAdapter(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            color: Colors.grey[300],
-                            child: buildCollage(context, height),
+                          TopAppBar(),
+                          SearchBusiness(),
+                          // Container(
+                          //   padding: const EdgeInsets.all(15),
+                          
+                          //   child: buildCollage(context, height),
+                          // ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Recommended For You',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      
+                                    ),
+                                  Text(
+                                'See All',
+                                style: TextStyle(
+                                  color: scheme.primary,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                                FoodWidget(height: height, mypostion: mypostion,
+                                near:false
+                                )
+                            ],
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 20),
-                              const Padding(
+                                Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                 child: Text(
-                                  'Food near you',
-                                  style: TextStyle(
+                                  'Popular Foods',
+                                  style: GoogleFonts.poppins(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                               const SizedBox(height: 15),
-                      SizedBox(
-                        height: height * 0.3,
-                child: FutureBuilder<List<SaveFood>>(
-                future: FoodDB().queryFood(),
-                builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          // While the data is being fetched, show a loading indicator
-                          return Foodshimmer();
-                        } else if (snapshot.hasError) {
-                          // If there's an error, display an error message
-                          return Text('Error: ${snapshot.error}');
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          // If there's no data or the data is empty, you can display a message
-                          return Text('No data available');
-                        } else {
-                          // If data is successfully fetched, display your ListView.builder
-                          List<SaveFood> foodlist = snapshot.data!;
-                      
-                          return ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: foodlist.length,
-                itemBuilder: (context, index) {
-                  final fooditem = foodlist[index];
-                      
-                  return Row(
-                    children: [
-                      SizedBox(width: index == 0 ? 15 : 0),
-                      GestureDetector(
-                         onTap: () => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => 
-        FoodDetailsScreen(food: fooditem,user_position: mypostion,),
-      ),
-    ),
-                        child: FoodCard(food: fooditem,user_position: mypostion,),
-                      ),
-                      SizedBox(
-                        width: index == foodlist.length - 1 ? 15 : 10,
-                      ),
-                    ],
-                  );
-                },
-                          );
-                        }
-                },
-                          ),)
+                                FoodWidget(height: height, mypostion: mypostion,
+                                near: false,
+                              )
                             ],
-                          )
+                          ),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Business List',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      
+                                    ),
+                                  Text(
+                                'See All',
+                                style: TextStyle(
+                                  color: scheme.primary,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                                BusinessCard()
+                            ],
+                          ),
+
+                          
                         ],
                       ),
                     ),
                   ],
                   
                 );
-  }}),
+                  }}),
               
               
               bottomNavigationBar: 
@@ -272,7 +229,7 @@ bool isLoading=false;
                     right: 5,
                     child: Image(
                       width: 150,
-                      image: AssetImage('assets/img/view.jpg'),
+                      image: NetworkImage('https://i.pinimg.com/564x/70/0d/f5/700df5b522327cf57c58a26480ceafbd.jpg'),
                     ),
                   ),
                   Padding(
@@ -282,14 +239,14 @@ bool isLoading=false;
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Food delivery',
+                          'Our Partners',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                           ),
                         ),
                         Text(
-                          'Order food you love',
+                          'Most selling',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             height: 1,
@@ -468,6 +425,102 @@ bool isLoading=false;
           ),
         )
       ],
+    );
+  }
+}
+
+class FoodWidget extends StatelessWidget {
+  const FoodWidget({
+    Key? key,
+    required this.height,
+    required this.mypostion,
+    required this.near,
+  }) : super(key: key);
+
+  final bool near;
+  final double height;
+  final Position mypostion;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height * 0.3,
+      child: FutureBuilder<List<SaveFood>>(
+        future: FoodDB().queryFood(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Foodshimmer();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Text('No data available');
+          } else {
+            List<SaveFood> foodlist = snapshot.data!;
+
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: foodlist.length,
+              itemBuilder: (context, index) {
+                final fooditem = foodlist[index];
+
+                return FutureBuilder<Business>(
+                  future: BusinessDB().getBusinessById(fooditem.business_id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData) {
+                      return const Text('No data available');
+                    } else {
+                      Business business = snapshot.data!;
+                      double distance = calculateDistance(
+                        business.latitude,
+                        business.longitude,
+                        mypostion.latitude,
+                        mypostion.longitude,
+                      );
+
+                      print('Distance: $distance, Near: $near');
+
+                      if (distance > 20 && near) {
+                        print('Returning SizedBox');
+                        return SizedBox(width: 1);
+                      } else {
+                        print('Returning FoodCard');
+                        return Row(
+                          children: [
+                            SizedBox(width: index == 0 ? 15 : 0),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FoodDetailsScreen(
+                                    food: fooditem,
+                                    user_position: mypostion,
+                                  ),
+                                ),
+                              ),
+                              child: FoodCard(
+                                food: fooditem,
+                                user_position: mypostion,
+                                near: near,
+                              ),
+                            ),
+                            SizedBox(
+                              width: index == foodlist.length - 1 ? 15 : 10,
+                            ),
+                          ],
+                        );
+                      }
+                    }
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

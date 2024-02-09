@@ -1,134 +1,3 @@
-// //User Class
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
-// class UserProfile {
-//   final String uid;
-//   final String fullname;
-//   final String pfp;
-//   final String bio;
-//   final String phone;
-//   final String location;
-
-//   UserProfile({
-//     required this.uid,
-//     required this.fullname,
-//     required this.pfp,
-//     required this.bio,
-//     required this.phone,
-//     required this.location,
-//   });
-
-
-//  static Map<String, UserProfile> _cachedUsers = {};
-//   static Set<String> _fetchAttempted = {}; 
-//    static UserProfile? currentUserProfile;
-
-//   factory UserProfile.fromJson(Map<String, dynamic> json) {
-//     return UserProfile(
-//       uid: json['uid'] as String,
-//       fullname: json['fullname'] as String,
-//       pfp: json['pfp'] as String,
-//       bio: json['bio'] as String,
-//       phone: json['phone'] as String,
-//       location: json['location'] as String,
-//     );
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'uid': uid,
-//       'fullname': fullname,
-//       'pfp': pfp,
-//       'bio': bio,
-//       'phone': phone,
-//       'location': location,
-//     };
-//   }
-
-
-
-//   static Future<List<UserProfile>> fetchAllUsers() async {
-//     try {
-//       final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-//       QuerySnapshot querySnapshot = await usersCollection.get();
-
-//       List<UserProfile> userList = querySnapshot.docs.map((doc) {
-//         return UserProfile.fromJson(doc.data() as Map<String, dynamic>);
-//       }).toList();
-//        final currentUser = FirebaseAuth.instance.currentUser;
-//       for (var user in userList) {
-//         _cachedUsers[user.uid] = user;
-//         if (user.uid == currentUser!.uid){
-//           currentUserProfile = user;
-//         }
-//       }
-
-//       // save current user
-  
-//       return userList;
-//     } catch (e) {
-//       print('Error fetching all users from Firestore: $e');
-//       return [];
-//     }
-//   }
-
-//   static Future<UserProfile?> getCachedUserByUid(String uid) async {
-//   UserProfile? cachedUser = _cachedUsers[uid];
-
-//   if (cachedUser != null) {
-//     return cachedUser;
-//   } else if (!_fetchAttempted.contains(uid)) {
-//     // Check if we have already attempted to fetch this user
-//      {
-//       _fetchAttempted.add(uid); // Mark that we've attempted to fetch this user
-//       // Fetch the user from Firestore
-//       List<UserProfile?> user = await fetchAllUsers();
-     
-      
-//     } 
-//   }else {
-//       // We've already attempted to fetch this user, and they don't exist in Firestore
-//       return null;
-//     }
-//  // return null;
-// }
-
-
-//   static Future<void> saveUserDataToFirestore(UserProfile userProfile) async {
-//     try {
-//       final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-//       await usersCollection.doc(userProfile.uid).set(userProfile.toJson());
-//       print('User data saved to Firestore for UID: ${userProfile.uid}');
-//     } catch (e) {
-//       print('Error saving user data to Firestore: $e');
-//     }
-//   }
-
-//   static Future<void> updateLocationInFirestore(String uid, String location) async {
-//     try {
-//       final DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
-//       await userDocRef.update({
-//         'location': location,
-//         'last_active': FieldValue.serverTimestamp(),
-//       });
-//       print('Location updated in Firestore for UID: $uid');
-//     } catch (e) {
-//       print('Error updating location in Firestore: $e');
-//     }
-//   }
-// }
-
-// String getFormattedUsername(UserProfile? userProfile) {
-//   if (userProfile != null && userProfile.fullname != null) {
-//     if (userProfile.fullname.length <= 10) {
-//       return userProfile.fullname;
-//     } else {
-//       return userProfile.fullname.substring(0, 10) + '...';
-//     }
-//   }
-//   return ''; // Handle null cases or return an empty string as needed
-// }
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -179,7 +48,7 @@ class UserProfileProvider extends ChangeNotifier {
       bio: data['bio'],
       phone: data['phone'],
       location: data['location'],
-      last_active: data['last_active'],
+      last_active: data['last_active'] ?? Timestamp.now(),
     );
   } else {
     // Return null if no user with the specified ID is found
@@ -199,7 +68,28 @@ class UserProfileProvider extends ChangeNotifier {
     }
   }
 
+  Future<Result> updateUserProfile(UserProfile updatedUser) async {
+    try {
+      final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+      
+      // Use the document ID to update the existing user data
+      await usersCollection.doc(updatedUser.uid).update(updatedUser.toJson());
 
+      // Find and update the local list of user profiles
+      int index = _userProfiles.indexWhere((user) => user.uid == updatedUser.uid);
+      if (index != -1) {
+        _userProfiles[index] = updatedUser;
+        notifyListeners();
+      }
+
+      print('User updated in Firestore: ${updatedUser.uid}');
+      
+      return Result.success('User updated successfully');
+    } catch (e) {
+      print('Error updating user in Firestore: $e');
+      return Result.error('Error updating user: $e');
+    }
+  }
 
   static Future<void> updateLocationInFirestore(String uid, String location) async {
     try {
@@ -271,4 +161,19 @@ class UserProfileProvider extends ChangeNotifier {
 
 // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
 // print('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+}
+
+class Result {
+  final bool isSuccess;
+  final String message;
+
+  Result._(this.isSuccess, this.message);
+
+  factory Result.success(String message) {
+    return Result._(true, message);
+  }
+
+  factory Result.error(String message) {
+    return Result._(false, message);
+  }
 }

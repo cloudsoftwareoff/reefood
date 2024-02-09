@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reefood/colors.dart';
 
 class MyAppBar extends StatelessWidget {
+
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Widget title;
@@ -29,8 +30,8 @@ class MyAppBar extends StatelessWidget {
     // }
 
     return SliverAppBar(
-      foregroundColor: foregroundColor ?? Colors.white,
-      backgroundColor: backgroundColor ?? scheme.primary,
+       foregroundColor: Colors.white,//foregroundColor ?? Colors.white,
+      backgroundColor:Colors.pink,// backgroundColor ?? scheme.primary,
       expandedHeight: 110,
       collapsedHeight: 60,
       forceElevated: true,
@@ -49,7 +50,7 @@ class MyAppBar extends StatelessWidget {
           onPressed: () {},
           icon: Icon(
             Icons.favorite_border_rounded,
-            color: foregroundColor == null ? Colors.white : scheme.primary,
+            color:  Colors.white ,
           ),
         ),
         Stack(
@@ -61,8 +62,8 @@ class MyAppBar extends StatelessWidget {
               },
               padding: EdgeInsets.zero,
               icon: Icon(
-                Icons.shopping_bag_outlined,
-                color: foregroundColor == null ? Colors.white : scheme.primary,
+                Icons.navigate_before,
+                color:  Colors.white 
               ),
             ),
             totalQuantity == 0
@@ -105,7 +106,7 @@ class MyAppBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           title ,
-      
+            
               subtitle 
           ],
         ),
@@ -152,6 +153,155 @@ class MyAppBar extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class AppBarUI extends StatefulWidget {
+  const AppBarUI({super.key});
+
+  @override
+  State<AppBarUI> createState() => _AppBarUIState();
+}
+
+class _AppBarUIState extends State<AppBarUI> {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor:Colors.transparent,
+      floating: true,
+      pinned: true,
+      title: 
+      Padding(
+          padding: const EdgeInsets.all(18.0),
+        child: Column(
+        children: [
+          TopAppBar(),
+          
+        ],
+      ),),
+       
+    );
+  }
+}
+
+class TopAppBar extends StatelessWidget {
+  const TopAppBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          
+        Card(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      color: scheme.background,
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+      ),
+      child: 
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: 
+      Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [Row(
+                          children: [
+                            Icon(
+            Icons.navigation,
+            color: scheme.primary,
+            size: 24,
+          ),
+          Text("location")
+                          ],
+                        ),
+          Text("within 10 km")],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        
+        Icon(
+          Icons.arrow_drop_down,
+          color: scheme.primary,
+          size: 24,
+        ),
+      ],
+      ),),
+        )
+        
+        ],
+      ),
+    );
+  }
+}
+
+class SearchBusiness extends StatelessWidget {
+  const SearchBusiness({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: GestureDetector(
+        onTap: () {
+          //Navigator.pushNamed(context, SearchScreen.routeName);
+        },
+        child: Card(
+          elevation: 8,
+          child: Container(
+            //width: doubsle.infinity,
+            height: 38,
+            decoration: BoxDecoration(
+              color: Colors.white
+                ,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.search_outlined,
+                    color: Colors.grey[700],
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Search for shops & restaurants',
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),

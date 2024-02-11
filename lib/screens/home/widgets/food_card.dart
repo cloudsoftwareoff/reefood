@@ -8,6 +8,8 @@ import 'package:reefood/model/food.dart';
 import 'package:reefood/model/business.dart';
 import 'package:reefood/services/Food/business_db.dart';
 
+
+
 class FoodCard extends StatelessWidget {
   final Position user_position;
   final SaveFood food;
@@ -45,7 +47,7 @@ class FoodCard extends StatelessWidget {
             return const Text('No data available');
           }
           return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),

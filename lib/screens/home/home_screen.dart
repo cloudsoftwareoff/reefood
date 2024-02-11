@@ -8,6 +8,7 @@ import 'package:reefood/model/food.dart';
 import 'package:reefood/screens/home/widgets/BusinessCard.dart';
 import 'package:reefood/screens/home/widgets/NoFood.dart';
 import 'package:reefood/screens/home/widgets/appbar.dart';
+import 'package:reefood/screens/home/widgets/businessList.dart';
 import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
 import 'package:reefood/screens/home/widgets/food_card.dart';
@@ -179,7 +180,7 @@ bool isLoading=false;
                                 ),
                               ),
                               const SizedBox(height: 5),
-                                BusinessCard()
+                                //BusinessList()
                             ],
                           ),
 

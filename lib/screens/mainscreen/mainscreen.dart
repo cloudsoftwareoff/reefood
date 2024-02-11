@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
+import 'package:reefood/screens/auth/choose_location.dart';
 import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/colors.dart';
+import 'package:reefood/screens/home/widgets/businessList.dart';
 class MainScreenApp extends StatelessWidget {
   const MainScreenApp({super.key});
 
@@ -31,22 +34,10 @@ class _MainScreenState extends State<MainScreen> {
 
   static final List<Widget> _bodyContent = [
     HomeScreen(),
-    Text(
-      "Notification Page",
-      style: labelStyle,
-    ),
-    Text(
-      "Message Page 1",
-      style: labelStyle,
-    ),
-    Text(
-      "Message Page 2",
-      style: labelStyle,
-    ),
-    Text(
-      "Message Page 3",
-      style: labelStyle,
-    ),
+    BusinessList(),
+    ChooseLocation(),
+    EditProfilePage()
+  
   
   
   ];

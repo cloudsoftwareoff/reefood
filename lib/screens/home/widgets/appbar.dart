@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 
 class MyAppBar extends StatelessWidget {
 
@@ -200,66 +200,60 @@ class TopAppBar extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          
-        Card(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      color: scheme.background,
-      elevation: 8,
-      shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-      ),
-      child: 
-      Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: 
-      Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Row(
-                          children: [
-                            Icon(
-            Icons.navigation,
-            color: scheme.primary,
-            size: 24,
-          ),
-          Text("location")
-                          ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Left side content
+                Row(
+                  children: [
+                    Icon(
+                      Icons.radio_button_checked_sharp,
+                      color: scheme.primary,
+                      size: 24,
+                    ),
+                    SizedBox(width: 8), // Adjust the spacing as needed
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Tunis, Tunis, Tunisia",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: scheme.primary,
+                          ),
                         ),
-          Text("within 10 km")],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                        Text(
+                          "Within 10Km",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: scheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                // Right side content
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: scheme.primary,
+                  size: 24,
+                ),
+              ],
+            ),
           ),
-        
-        Icon(
-          Icons.arrow_drop_down,
-          color: scheme.primary,
-          size: 24,
-        ),
-      ],
-      ),),
-        )
-        
         ],
       ),
     );
   }
 }
+
 
 class SearchBusiness extends StatelessWidget {
   const SearchBusiness({
@@ -274,33 +268,40 @@ class SearchBusiness extends StatelessWidget {
         onTap: () {
           //Navigator.pushNamed(context, SearchScreen.routeName);
         },
-        child: Card(
-          elevation: 8,
-          child: Container(
-            //width: doubsle.infinity,
-            height: 38,
-            decoration: BoxDecoration(
-              color: Colors.white
-                ,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.search_outlined,
-                    color: Colors.grey[700],
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Search for shops & restaurants',
+        child: Container(
+          //width: doubsle.infinity,
+          height: 38,
+          decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+      ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.search_outlined,
+                  color: Colors.grey[700],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Search',
                     style: TextStyle(
                       color: Colors.grey[700],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+                Icon(
+                  Icons.clear_outlined,
+                  color: Colors.grey[700],
+                ),
+
+              ],
             ),
           ),
         ),

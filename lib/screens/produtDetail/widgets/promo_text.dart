@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 
 class PromoText extends StatelessWidget {
   const PromoText({

@@ -16,7 +16,7 @@ import 'package:reefood/screens/produtDetail/food_details.dart';
 import 'package:reefood/services/Food/business_db.dart';
 import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -40,27 +40,27 @@ bool isLoading=false;
   void initState() {
     super.initState();
     
-    getLocationInfo();
+    //getLocationInfo();
     
   }
 
   
 
-  Future<LocationInfo> getLocationInfo() async {
-    bool hasPermission = await locationProvider.handleLocationPermission(context);
+  // Future<LocationInfo> getLocationInfo() async {
+  //   bool hasPermission = await locationProvider.handleLocationPermission(context);
     
-    try {
+  //   try {
     
-      return await locationProvider.getLocation();
+  //     return await locationProvider.getLocation();
       
-    } catch (e) {
-      print("Error getting location: $e");
-      return LocationInfo(isCurrentLocation: false, city: "Error getting location",
-      gov: "Error getting location");
+  //   } catch (e) {
+  //     print("Error getting location: $e");
+  //     return LocationInfo(isCurrentLocation: false, city: "Error getting location",
+  //     gov: "Error getting location");
     
-    }
+  //   }
   
-  }
+  // }
  //final LocationInfo? locationInfo = await locationProvider.getLocation();
 
   @override
@@ -99,7 +99,7 @@ bool isLoading=false;
                           //   child: buildCollage(context, height),
                           // ),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const SizedBox(height: 20),
                               Padding(
@@ -138,7 +138,7 @@ bool isLoading=false;
                                 Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                 child: Text(
-                                  'Popular Foods',
+                                  'Food near you',
                                   style: GoogleFonts.poppins(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ bool isLoading=false;
                               ),
                               const SizedBox(height: 15),
                                 FoodWidget(height: height, mypostion: mypostion,
-                                near: false,
+                                near: true,
                               )
                             ],
                           ),
@@ -180,7 +180,10 @@ bool isLoading=false;
                                 ),
                               ),
                               const SizedBox(height: 5),
-                                //BusinessList()
+                                Container(
+                                  height: 200,
+                                  
+                                  child: BusinessList())
                             ],
                           ),
 

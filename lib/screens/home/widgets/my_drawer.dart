@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 import 'package:reefood/components/alert_dialog.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';

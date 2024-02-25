@@ -24,6 +24,7 @@ class _BusinessListState extends State<BusinessList> {
           List<Business>? businesses = snapshot.data;
 
           return ListView.builder(
+            scrollDirection: Axis.horizontal,
             itemCount: businesses?.length,
             itemBuilder: (context, index) {
               return BusinessCard(business: businesses![index]);

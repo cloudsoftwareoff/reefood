@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reefood/screens/me_tab/userprofile_page.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
-import 'package:reefood/screens/auth/choose_location.dart';
+import 'package:reefood/screens/location/choose_location.dart';
 import 'package:reefood/screens/home/home_screen.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 import 'package:reefood/screens/home/widgets/businessList.dart';
+import 'package:reefood/screens/mainscreen/fab.dart';
 class MainScreenApp extends StatelessWidget {
   const MainScreenApp({super.key});
 
@@ -26,20 +29,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-
-  static TextStyle labelStyle = TextStyle(
-    color: Color.fromARGB(255, 7, 255, 222),
-    fontSize: 12, // Adjust the font size as needed
-  );
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static final List<Widget> _bodyContent = [
     HomeScreen(),
     BusinessList(),
     ChooseLocation(),
-    EditProfilePage()
-  
-  
-  
+    ME()
+
   ];
 
 void _changeIndex(int index) {
@@ -55,52 +52,48 @@ void _changeIndex(int index) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: _bodyContent.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: scheme.background,
-          primaryColor: scheme.secondary,
-          textTheme: Theme.of(context).textTheme.copyWith(
-                bodySmall: labelStyle,
-              ),
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _changeIndex,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.explore,
-                color: scheme.secondary,
-              ),
-              label: "Discover",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-                color: scheme.secondary,
-              ),
-              label: "Browse",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite_outline,
-                color: scheme.secondary,
-              ),
-              label: "Favorites",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_circle_outlined,
-                color: scheme.secondary,
-              ),
-              label: "Me",
-            ),
-          ],
-        ),
+  
+      
+      bottomNavigationBar: FABBottomAppBar(
+        backgroundColor: Color.fromARGB(255, 239, 236, 237),
+        color: Colors.grey,
+        //centerItemText: "",
+        selectedColor:scheme.primary,
+        notchedShape: CircularNotchedRectangle(),
+        iconSize: 20.0,
+        onTabSelected: (index) {
+          setState(() {
+            
+            _changeIndex(index);
+          });
+        //  // _pageController.animateToPage(index, duration: Duration(milliseconds: 5), curve: Curves.easeInOut);
+ 
+        //    setState(() {
+        //   //    print("_selectedDrawerIndex $index");
+        //      _selectedDrawerIndex = index; // Update the selected index when a tab is selected
+        //  _loaded=true;
+         
+        },
+        items: [
+          // --------
+          FABBottomAppBarItem(iconData: FontAwesomeIcons.home, text: 'Explore'),
+          FABBottomAppBarItem(iconData: FontAwesomeIcons.store, text: 'Browse'),
+        
+
+          FABBottomAppBarItem(
+              iconData: FontAwesomeIcons.heart, text: 'Favorite'),
+          FABBottomAppBarItem(
+              iconData: FontAwesomeIcons.user, text: 'me'),
+               
+         
+        ], height: 70,
       ),
+      
+      
     );
   }
 }

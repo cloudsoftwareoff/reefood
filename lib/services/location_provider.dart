@@ -51,24 +51,33 @@ class LocationProvider {
         return LocationInfo(
           isCurrentLocation: true,
           city: address,
-          gov: govs
+          gov: govs,
+          latitude: position.latitude,
+          longitude: position.longitude
         );
       } else {
         return LocationInfo(
           isCurrentLocation: true,
           city: "Unknown City",
-          gov: "Unknown administrativeArea"
+          gov: "Unknown administrativeArea",
+          latitude: 0,
+          longitude: 0
         );
       }
     } catch (e) {
       print("Error getting location: $e");
-      return LocationInfo(isCurrentLocation: false, city: "Please Enable GPS",
-      gov: "Please Enable GPS"
+      return LocationInfo(
+        isCurrentLocation: false, 
+      city: "Please Enable GPS",
+      gov: "Please Enable GPS",
+      latitude: 0,
+          longitude: 0
       );
     }
   }
 }
 void saveLocationToSharedPreferences(double latitude, double longitude) async {
+  
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('latitude', latitude);
     prefs.setDouble('longitude', longitude);
@@ -91,6 +100,12 @@ class LocationInfo {
   final bool isCurrentLocation;
   final String city;
   final String gov;
+  final double latitude;
+  final double longitude;
 
-  LocationInfo({required this.isCurrentLocation, required this.city ,required this.gov});
+  LocationInfo({required this.isCurrentLocation, required this.city ,required this.gov,
+  required this.latitude,
+  required this.longitude
+  
+  });
 }

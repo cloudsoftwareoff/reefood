@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
+import 'package:reefood/services/location_provider.dart';
+import 'package:reefood/services/map/display_map.dart';
 
 
 class ChooseLocation extends StatefulWidget {
@@ -15,6 +18,9 @@ class ChooseLocation extends StatefulWidget {
 
 class _ChooseLocationState extends State<ChooseLocation> {
   double _sliderValue = 5.0;
+  String mylocation = "unset";
+  double latitude=35.0820361;
+  double longitude=9.8719635;
   @override
   Widget build(BuildContext context) {
     return 
@@ -45,14 +51,11 @@ class _ChooseLocationState extends State<ChooseLocation> {
               ),
             )
           ),
-          
-Stack(
-        children: [
-          
-        ],
-      ),
-    
 
+        DisplayMap(latitude:latitude, longitude: longitude),
+
+
+        Text("$mylocation"),
           Padding(
             padding: EdgeInsets.all(8),
             child: Text(
@@ -85,7 +88,7 @@ Stack(
                       ),
                     ],
                   ),
-         Padding(
+        Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
         decoration: BoxDecoration(
@@ -112,14 +115,30 @@ Stack(
       ),
     )
               ,
+              
             Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.navigation_rounded,
-                color: scheme.primary, // Replace with your desired color
-                size: 24,
+              GestureDetector(
+                onTap:() async{
+                  bool hasPermission = await LocationProvider().handleLocationPermission(context);
+                  setState(() {
+                    mylocation="loading";
+                  });
+              final LocationInfo locationInfo = await LocationProvider().getLocation();
+              setState(() {
+                mylocation=locationInfo.city+' '+locationInfo.gov;
+                latitude=locationInfo.latitude;
+                longitude=locationInfo.longitude;
+              });
+
+                }  ,
+                child: Icon(
+                  Icons.navigation_rounded,
+                  color: scheme.primary, // Replace with your desired color
+                  size: 24,
+                ),
               ),
               Text(
                 'use my current location',
@@ -146,7 +165,7 @@ Stack(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child:  Text('Button',
+                  child:  Text('Save',
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                     ),

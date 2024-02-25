@@ -71,24 +71,23 @@ String xerror = "Something went wrong";
     await _auth.signOut();
   }
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+ Future<UserCredential> signInWithGoogle() async {
+    // Trigger the Google Authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  SignInGoogle() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Sign in to Firebase with the Google credential 
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+    
   }
-
-  Google_SignOut() async {
-    try {
-      await _googleSignIn.signOut();
-    } catch (error) {
-      print(error);
-    }
-  }
-
 }
 
 String getErrorMessage(String errorCode) {

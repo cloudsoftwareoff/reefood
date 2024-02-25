@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reefood/app_localizations.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 
 

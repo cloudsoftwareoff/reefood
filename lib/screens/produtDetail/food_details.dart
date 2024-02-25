@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 import 'package:reefood/functions/distance.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reefood/model/business.dart';
 import 'package:reefood/model/food.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,7 +24,7 @@ class FoodDetailsScreen extends StatelessWidget {
     return SafeArea(
     
       child: Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: FutureBuilder<Business>(
         future: BusinessDB().getBusinessById(food.business_id),
         builder: (context,snapshot){
@@ -67,7 +68,8 @@ class FoodDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             
-                            Expanded(child: 
+                            Expanded(
+                              child: 
                             Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,15 +79,18 @@ class FoodDetailsScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.grey.shade300, Colors.grey.shade400],
+                        colors: [Colors.grey.shade300, Colors.grey.shade50],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
                     ),
-                    child: Icon(
-                      Icons.chevron_left,
-                      color: scheme.primary,
-                      size: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FaIcon(
+                        FontAwesomeIcons.chevronLeft,
+                        color: scheme.primary,
+                        size: 18,
+                      ),
                     ),
                   ),
                 )
@@ -96,17 +101,17 @@ class FoodDetailsScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.grey.shade300, Colors.grey.shade400],
+                          colors: [Colors.grey.shade300, Colors.grey.shade50],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.favorite_outline,
+                        child: FaIcon(
+                          FontAwesomeIcons.heart,
                           color: scheme.primary,
-                          size: 30,
+                          size: 20,
                         ),
                       ),
                     ),
@@ -156,7 +161,10 @@ class FoodDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(padding: 
+                Padding(
+                  
+                  
+                padding: 
                 const EdgeInsets.all(4)
                 ,
                 child:
@@ -164,11 +172,13 @@ class FoodDetailsScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(children: [
-                        const Icon(
-                      Icons.shopping_bag,
-                      color: Colors.grey,
-                      size: 24,
+                    Row(children: 
+                    [
+                          FaIcon(
+                          FontAwesomeIcons.bagShopping,
+                          
+                      color: scheme.primary,
+                      size: 16,
                     )
                       ,const SizedBox(width: 10,),
                     Text(
@@ -189,7 +199,7 @@ class FoodDetailsScreen extends StatelessWidget {
                   ],
                 )),
                 Padding(
-                  padding:const  EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -200,10 +210,10 @@ class FoodDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(children: [
-                                Icon(
-                      Icons.star,
+                                FaIcon(
+                      FontAwesomeIcons.star,
                       color: scheme.primary,
-                      size: 24,
+                      size: 16,
                     ),
                     const SizedBox(width: 10,),
                     const Text('4.6 '),
@@ -213,9 +223,9 @@ class FoodDetailsScreen extends StatelessWidget {
                     ),)
                             ],),
                             Text(
-                              'Price: ${food.price} TND',
+                              '${food.price} TND',
                               style:GoogleFonts.poppins(
-                                color: Colors.grey[800],
+                                color: scheme.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16
                               )
@@ -227,21 +237,22 @@ class FoodDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Row(children: [
-                      const Icon(
-                        Icons.timelapse,
-                        color: Color(0xFF30BF3E),
-                        size: 24,
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                        FaIcon(
+                        FontAwesomeIcons.clock,
+                        color:  scheme.primary,
+                        size: 16,
                       ),const SizedBox(width: 10,),
                       Text("Pick up: ${food.pickup_time}")
                   ],),
                 ),
                   Divider(height: 2,
-                        color: Colors.grey[500],
+                        color: Colors.grey[300],
                         thickness: 2,),
                 Padding(
-                  padding: const EdgeInsetsDirectional.all(8),
+                  padding: const EdgeInsetsDirectional.all(4),
                 
                 child:
                 Row(
@@ -249,9 +260,9 @@ class FoodDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(
+                      Icon(
                       Icons.location_pin,
-                      color: Color(0xFF30BF3E),
+                      color:  scheme.primary,
                       size: 24,
                     ),
                     Column(
@@ -266,7 +277,8 @@ class FoodDetailsScreen extends StatelessWidget {
                               }else if (!snapshot.hasData) {
           
                 return const Text('No data available');
-                    } else{
+                    } 
+                    else{
                       String? businessLocation = snapshot.data;
                       return Text(businessLocation!,
                       style: TextStyle(
@@ -285,52 +297,38 @@ class FoodDetailsScreen extends StatelessWidget {
                       ],
                       
                     ),
-                    Icon(
-                      Icons.navigate_next,
+                    FaIcon(
+                      FontAwesomeIcons.arrowRight,
                       color:  scheme.primary,
-                      size: 24,
+                      size: 16,
                     ),
                   ],
                 )
                 ,),
                 Divider(height: 2,
-                        color: Colors.grey[500],
+                        color: Colors.grey[300],
                         thickness: 2,),
                   Padding(
                   padding: const  EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                  child: Text(
-                    food.desc,
-                    
+                  child: Column(
+                    children: [
+                      Text("What you will get",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14
+                      ),),
+                      Text(
+                        food.desc,
+                        
+                      ),
+                    ],
                   ),
                 ),
                 const Text(
                   'Rating: 4.5',
                   
                 ),
-                Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 24),
-                  child: ElevatedButton(
-  onPressed: () {
-    print('Button pressed ...');
-  },
-  child: Text(
-    'Add to Cart',
-    style: TextStyle(
-      fontFamily: 'Readex Pro',
-      fontSize: 16, // Adjust font size as needed
-    ),
-  ),
-  style: ElevatedButton.styleFrom(
-    minimumSize: Size(150, 40),  // Set desired width and height
-    primary: Colors.blue,  // Set background color
-    onPrimary: Colors.white,  // Set text color
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5),  // Adjust border radius
-    ),
-  ),
-),
-
-                ),
+                
               ],
             ),
 
@@ -340,6 +338,47 @@ class FoodDetailsScreen extends StatelessWidget {
         
       
       ),
+       bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          // Return the color for pressed state
+                          return scheme.primary;
+                        } else {
+                          // Return the color for default state
+                          return scheme.primary;
+                        }
+                      },
+                    ),
+                  ),
+                  child: Text('Add to cart',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14
+                  ),
+                  ),
+                  onPressed: () {
+                    // Handle button press
+                    print('Button pressed');
+                  },
+                ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: SizedBox(),
+      
     )
     );
   }

@@ -1,6 +1,6 @@
 import 'package:dropdown_model_list/drop_down/model.dart';
 import 'package:flutter/material.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 
 import 'package:reefood/components/auth_comp.dart';
 import 'package:reefood/components/dropdown.dart';
@@ -91,7 +91,7 @@ class AuthScreen extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              AuthService().SignInGoogle();
+                              //AuthService().SignInGoogle();
                             },
                             icon: CircleAvatar(
                               radius: 25,

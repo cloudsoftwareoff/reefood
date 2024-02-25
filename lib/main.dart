@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reefood/app_localizations.dart';
+import 'package:reefood/constant/theme.dart';
 import 'package:reefood/firebase_options.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
-import 'package:reefood/screens/auth/choose_location.dart';
+import 'package:reefood/screens/location/choose_location.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
 
+
+theme: myAppTheme,
       supportedLocales: [
     const Locale('en', 'US'), 
     const Locale('fr', 'FR'), 

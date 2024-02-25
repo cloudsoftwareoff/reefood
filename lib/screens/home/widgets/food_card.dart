@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 import 'package:reefood/functions/distance.dart';
 import 'package:reefood/model/food.dart';
 import 'package:reefood/model/business.dart';
@@ -54,6 +54,7 @@ class FoodCard extends StatelessWidget {
           height: height * 0.22,
           width: width * 0.6,
           child: Column(
+          
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,7 +126,7 @@ class FoodCard extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                     child: Text(
                       
-                      food.desc,
+                      food.title,
                       maxLines: 1,
                       style: const TextStyle(
                         color: Color.fromRGBO(50, 50, 50, 1),
@@ -143,7 +144,8 @@ class FoodCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
                 child: Row(
                   children: [
-                    Icon(Icons.timer,
+                    Icon(
+                    Icons.timer,
                     size: 10,),
                     Text(
                       ' 08:00 14:00',

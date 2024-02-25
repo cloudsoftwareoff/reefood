@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:reefood/colors.dart';
+import 'package:reefood/constant/colors.dart';
 
 class NoFood extends StatefulWidget {
   const NoFood({super.key});

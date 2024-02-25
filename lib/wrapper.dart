@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:reefood/screens/auth/choose_location.dart';
+import 'package:reefood/screens/location/choose_location.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/mainscreen/mainscreen.dart';
+import 'package:reefood/screens/splash/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:reefood/screens/home/home_screen.dart';
@@ -40,7 +41,7 @@ class Wrapper extends StatelessWidget {
             return WelcomeScreen();
           } else {
             // Return home or auth
-            return !isUserLoggedIn() ? AuthScreen() : MainScreenApp();
+            return !isUserLoggedIn() ? OnBoarding1() : MainScreenApp();
           }
         } else {
           // Show loading indicator or another placeholder widget

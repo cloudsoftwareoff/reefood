@@ -191,7 +191,7 @@ import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/services/api/ip_lookup.dart';
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/xUser.dart';
 import 'package:reefood/services/users/userAuth.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -304,17 +304,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Registration successful
         final String userLocation = await getUserLocation();
 
-        UserProfile newUserProfile = UserProfile(
-          uid: FirebaseAuth.instance.currentUser!.uid,
-          fullname: _name,
-          pfp: 'default',
-          bio: 'Hello, I am a new user!',
-          phone: '',
-          last_active: Timestamp.now(),
-          location: userLocation,
-        );
+        // UserProfile newUserProfile = UserProfile(
+        //   uid: FirebaseAuth.instance.currentUser!.uid,
+        //   fullname: _name,
+        //   pr: 'default',
+        //   bio: 'Hello, I am a new user!',
+        //   phone: '',
+        //   last_active: Timestamp.now(),
+        //   location: userLocation, profilePictureUrl: '',
+        // );
 
-        await UserProfileProvider().addUserToFirestore(newUserProfile);
+        //await UserProfileProvider().addUserToFirestore(newUserProfile);
         setState(() {
           _saving=false;
         });

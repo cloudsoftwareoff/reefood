@@ -7,37 +7,13 @@ import 'package:reefood/components/alert_dialog.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/xUser.dart';
 
 class MyDrawer extends StatelessWidget {
   final BuildContext parentContext;
   const MyDrawer({super.key, required this.parentContext});
 
-Future<UserProfile?> xuserProfileById(String id) async {
 
-  // Fetch a specific user profile from Firestore based on the provided ID
-  final QuerySnapshot<Map<String, dynamic>> querySnapshot =
-      await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: id).get();
-
-  if (querySnapshot.docs.isNotEmpty) {
-    final doc = querySnapshot.docs.first;
-    final data = doc.data();
-    
-    // Return the UserProfile for the user with the specified ID
-    return UserProfile(
-      uid: doc.id,
-      fullname: data['fullname'],
-      pfp: data['pfp'],
-      bio: data['bio'],
-      phone: data['phone'],
-      location: data['location'],
-      last_active: data['last_active'],
-    );
-  } else {
-    // Return null if no user with the specified ID is found
-    return null;
-  }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +62,7 @@ Future<UserProfile?> xuserProfileById(String id) async {
                               child: Center(
                               child: CircleAvatar(
                                 radius: 50,
-                                backgroundImage: NetworkImage(myself.pfp),),
+                                backgroundImage: NetworkImage(myself.profilePictureUrl),),
                               ),
                             ),
                             Text(

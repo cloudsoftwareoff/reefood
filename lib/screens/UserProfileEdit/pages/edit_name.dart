@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reefood/components/appbar_widget.dart';
 import 'package:reefood/model/user_profile.dart';
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/xUser.dart';
 import 'package:string_validator/string_validator.dart';
 
 

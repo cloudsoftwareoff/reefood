@@ -1,5 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+// surpriseID: Unique identifier.
+// storeID: Links the surprise to the offering store.
+// title: Title of the surprise.
+// description: Detailed description.
+// imageURL: Representative image.
+// price: Price of the surprise.
+// originalPrice: Original price.
+// quantityAvailable: Current number of available surprises.
+// pickupWindow:
+// startTime: Start of the pickup time window.
+// endTime: End of the pickup time window.
+// dietaryRestrictions: Array of possible restrictions (e.g., ["vegetarian", "gluten-free", "vegan"])
 class SaveFood{
 
   String id;

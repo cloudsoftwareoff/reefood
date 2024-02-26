@@ -11,7 +11,7 @@ import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/screens/auth/main_auth.dart';
 import 'package:reefood/screens/auth/signup_screen.dart';
 import 'package:reefood/screens/home/home_screen.dart';
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/xUser.dart';
 
 import 'package:reefood/wrapper.dart';
 

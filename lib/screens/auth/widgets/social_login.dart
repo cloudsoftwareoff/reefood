@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/services/api/ip_lookup.dart';
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/xUser.dart';
 import 'package:reefood/services/users/userAuth.dart';
 
 
@@ -59,18 +59,20 @@ class SocialLogin extends StatelessWidget {
                               await AuthService().signInWithGoogle();
                           final String userLocation = await getUserLocation();
 
-                          UserProfile newUserProfile = UserProfile(
+
+                          UserProfile userProfile = UserProfile(
                             uid: FirebaseAuth.instance.currentUser!.uid,
-                            fullname: me.user!.displayName ?? "reefood user",
-                            pfp: me.user!.photoURL ?? "No Profile Picture",
-                            bio: 'Hello, I am a new user!',
-                            phone: '',
-                            last_active: Timestamp.now(),
-                            location: userLocation,
-                          );
+                             fullname:  me.user!.displayName ?? "reefood user",
+                              profilePictureUrl:  me.user!.photoURL ?? "default",
+                              
+                                ipLocation: userLocation, 
+                                lastActive: Timestamp.now(), 
+                              
+                                  );
+                       
 
                           await UserProfileProvider()
-                              .addUserToFirestore(newUserProfile);
+                              .addUserToFirestore(userProfile);
                           // Pop out all widgets
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);

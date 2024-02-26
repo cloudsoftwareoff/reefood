@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reefood/constant/colors.dart';
-import 'package:reefood/screens/auth/signin_screen.dart';
+import 'package:reefood/screens/auth/auth_screen.dart';
 
 class OnBoarding1 extends StatefulWidget {
   const OnBoarding1({super.key});
@@ -15,7 +15,9 @@ class _OnBoarding1State extends State<OnBoarding1> {
     return GestureDetector(
       onTap: () => {},
       child: Scaffold(
+        
         backgroundColor: Colors.white,
+        
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +113,12 @@ class _OnBoarding1State extends State<OnBoarding1> {
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 16),
                           child: ElevatedButton(
                             onPressed: () {
-                              print('Button pressed ...');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MainAuthScreen(loginRequest: false,),
+                                ),
+                              );
                             },
                             child: Text('Get Started'),
                             style: ElevatedButton.styleFrom(
@@ -147,13 +154,13 @@ class _OnBoarding1State extends State<OnBoarding1> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SignIn(),
+                                  builder: (context) => MainAuthScreen(loginRequest: true,),
                                 ),
                               );
                             },
                             child: Text('Sign In'),
                             style: ElevatedButton.styleFrom(
-                              //backgroundColor:scheme.primary,
+                              backgroundColor:scheme.primary,
                               textStyle: TextStyle(
                                 fontFamily: 'PlusJakartaSans',
                                 color: Colors.white,

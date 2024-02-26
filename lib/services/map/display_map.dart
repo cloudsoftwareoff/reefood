@@ -14,23 +14,25 @@ class DisplayMap extends StatelessWidget {
 
     final mapUrl = 'https://maps.locationiq.com/v3/staticmap?key=$apiKey&center=$latitude,$longitude&size=${mapWidth}x$mapHeight&zoom=$zoomLevel&markers=icon:default-marker|$latitude,$longitude';
 
-    return Stack(
-  children: [
-    Image.network(mapUrl), // Your map image
-    Positioned(
-      bottom: 50, // Adjust position based on marker placement
-      left: 100,  // Adjust position based on marker placement
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        color: Colors.white,
-        child: Text(
-          'Address Name', 
-          style: TextStyle(color: Colors.black),
+    return Center(
+      child: Stack(
+      children: [
+      Image.network(mapUrl),
+      Positioned(
+        bottom: 50, 
+        left: 100,  
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          color: Colors.white,
+          child: Text(
+            'Address Name', 
+            style: TextStyle(color: Colors.black),
+          ),
         ),
       ),
+      ],
     ),
-  ],
-);
+    );
 
   }
 }

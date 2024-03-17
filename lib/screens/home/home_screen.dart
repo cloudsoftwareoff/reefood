@@ -12,7 +12,7 @@ import 'package:reefood/screens/home/widgets/businessList.dart';
 import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
 import 'package:reefood/screens/home/widgets/food_card.dart';
-import 'package:reefood/screens/produtDetail/food_details.dart';
+import 'package:reefood/screens/productDetail/food_details.dart';
 import 'package:reefood/services/Food/business_db.dart';
 import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
@@ -40,28 +40,7 @@ bool isLoading=false;
   void initState() {
     super.initState();
     
-    //getLocationInfo();
-    
   }
-
-  
-
-  // Future<LocationInfo> getLocationInfo() async {
-  //   bool hasPermission = await locationProvider.handleLocationPermission(context);
-    
-  //   try {
-    
-  //     return await locationProvider.getLocation();
-      
-  //   } catch (e) {
-  //     print("Error getting location: $e");
-  //     return LocationInfo(isCurrentLocation: false, city: "Error getting location",
-  //     gov: "Error getting location");
-    
-  //   }
-  
-  // }
- //final LocationInfo? locationInfo = await locationProvider.getLocation();
 
   @override
   Widget build(BuildContext context) {

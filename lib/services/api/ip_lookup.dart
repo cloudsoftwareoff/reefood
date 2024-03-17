@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 Future<String> getUserLocation() async {
   try {
     final response = await http.get(Uri.parse('http://ip-api.com/json'));

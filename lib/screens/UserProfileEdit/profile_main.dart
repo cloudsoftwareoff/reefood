@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reefood/components/display_pfp_edit.dart';
 import 'package:reefood/model/user_profile.dart';
-import 'package:reefood/screens/UserProfileEdit/pages/edit_bio.dart';
+
 import 'package:reefood/screens/UserProfileEdit/pages/edit_email.dart';
 import 'package:reefood/screens/UserProfileEdit/pages/edit_image.dart';
 import 'package:reefood/screens/UserProfileEdit/pages/edit_name.dart';
@@ -37,7 +36,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Text("Error: ${snapshot.error}"),
               );
             } else if (!snapshot.hasData || snapshot.data == null) {
-              return Center(
+              return const Center(
                 child: Text("User profile not found"),
               );
             } else {
@@ -49,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     elevation: 0,
                     toolbarHeight: 10,
                   ),
-                  Center(
+                  const Center(
                       child: Padding(
                           padding: EdgeInsets.only(bottom: 20),
                           child: Text(
@@ -62,8 +61,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ))),
                   InkWell(
                       onTap: () {
-                        navigateSecondPage(
-                            EditImagePage(pfpUrl: userProfile.profilePictureUrl));
+                        navigateSecondPage(EditImagePage(
+                            pfpUrl: userProfile.profilePictureUrl));
                       },
                       child: DisplayImage(
                         imagePath: userProfile.profilePictureUrl,
@@ -81,8 +80,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       EditPhoneFormPage(
                         phoneNum: userProfile.phoneNumber,
                       )),
-                  buildUserInfoDisplay(myemail!, 'Email', EditEmailFormPage()),
-                
+                  buildUserInfoDisplay(
+                      myemail!, 'Email', const EditEmailFormPage()),
                 ],
               );
             }
@@ -93,25 +92,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
   // Widget builds the display item with the proper formatting to display the user's info
   Widget buildUserInfoDisplay(String getValue, String title, Widget editPage) =>
       Padding(
-          padding: EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 1,
               ),
               Container(
                   width: 350,
                   height: 40,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
                     color: Colors.grey,
@@ -135,8 +134,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ]))
             ],
           ));
-
-
 
   // Refrshes the Page after updating user info.
   FutureOr onGoBack(dynamic value) {

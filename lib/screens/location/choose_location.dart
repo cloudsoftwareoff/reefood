@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:latlong2/latlong.dart';
+
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/services/location_provider.dart';
-import 'package:reefood/services/map/display_map.dart';
+
+import 'package:reefood/services/map/my_map.dart';
 
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({super.key});
@@ -45,12 +44,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
                     ),
                   )),
               SizedBox(
-              width: MediaQuery.of(context).size.height,
-              height: MediaQuery.of(context).size.height/3,
-
-                child: 
-                DisplayMap(latitude: latitude, longitude: longitude),
-                ),
+                  width: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: MapScreen(
+                      latitude: latitude,
+                      longitude: longitude,
+                      label: mylocation)
+                  // DisplayMap(latitude: latitude, longitude: longitude),
+                  ),
               Text("$mylocation"),
               Padding(
                 padding: EdgeInsets.all(8),
@@ -90,11 +91,11 @@ class _ChooseLocationState extends State<ChooseLocation> {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding:  EdgeInsets.symmetric(horizontal: 16.0),
                         child: Icon(Icons.search),
                       ),
                       Expanded(
@@ -152,7 +153,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                         print('Button pressed ...');
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: scheme.primary,
+                        backgroundColor: scheme.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),

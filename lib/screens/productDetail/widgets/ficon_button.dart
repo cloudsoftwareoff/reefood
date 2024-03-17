@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:reefood/screens/produtDetail/widgets/tap_effect.dart';
+import 'package:reefood/screens/productDetail/widgets/tap_effect.dart';
 
 class FIconButton extends StatelessWidget {
   final Widget icon;

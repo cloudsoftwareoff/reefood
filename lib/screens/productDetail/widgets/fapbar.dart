@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/components/helper.dart';
 import 'package:reefood/model/food.dart';
-import 'package:reefood/screens/produtDetail/widgets/discount_card.dart';
-import 'package:reefood/screens/produtDetail/widgets/ficon_button.dart';
-import 'package:reefood/screens/produtDetail/widgets/promo_text.dart';
-import 'package:reefood/screens/produtDetail/widgets/reefood.dart';
-import 'package:reefood/screens/produtDetail/widgets/widget.dart';
+import 'package:reefood/screens/productDetail/widgets/discount_card.dart';
+import 'package:reefood/screens/productDetail/widgets/ficon_button.dart';
+import 'package:reefood/screens/productDetail/widgets/promo_text.dart';
+import 'package:reefood/screens/productDetail/widgets/reefood.dart';
+import 'package:reefood/screens/productDetail/widgets/widget.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class FAppBar extends SliverAppBar {

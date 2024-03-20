@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reefood/screens/favorites/favorite_page.dart';
 import 'package:reefood/screens/me_tab/userprofile_page.dart';
-import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
-import 'package:reefood/screens/location/choose_location.dart';
 import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/screens/home/widgets/businessList.dart';
 import 'package:reefood/screens/mainscreen/fab.dart';
-import 'package:reefood/services/map/my_map.dart';
+
 class MainScreenApp extends StatelessWidget {
   const MainScreenApp({super.key});
 
@@ -35,7 +34,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   static final List<Widget> _bodyContent = [
     HomeScreen(),
     BusinessList(),
-    ChooseLocation(),
+    UserFavorite(),
     ME()
 
   ];
@@ -71,13 +70,8 @@ void _changeIndex(int index) {
             
             _changeIndex(index);
           });
-        //  // _pageController.animateToPage(index, duration: Duration(milliseconds: 5), curve: Curves.easeInOut);
- 
-        //    setState(() {
-        //   //    print("_selectedDrawerIndex $index");
-        //      _selectedDrawerIndex = index; // Update the selected index when a tab is selected
-        //  _loaded=true;
-         
+
+    
         },
         items: [
           // --------

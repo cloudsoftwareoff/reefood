@@ -40,12 +40,10 @@ class UserProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<UserProfile?> userProfileById(String? id) async {
+  Future<UserProfile?> userProfileById(String id) async {
     try {
       // Fetch user profile
-      if (id == null){
-return null;
-      }
+    
       final QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance
               .collection('users')
@@ -69,9 +67,9 @@ return null;
           preferencesKeywords:
               List<String>.from(data['preferencesKeywords'] ?? []),
           geolocation: GeoPoint(
-              data['geolocation'].latitude as double? ?? 0.0,
-              data['geolocation'].longitude as double? ?? 0.0,
-),
+            data['geolocation'].latitude as double? ?? 0.0,
+            data['geolocation'].longitude as double? ?? 0.0,
+          ),
         );
       } else {
         return null;
@@ -82,7 +80,7 @@ return null;
     }
   }
 
-  Future<Object?> fetchCachedUserProfile(String userId) async {
+  Future<UserProfile?> fetchCachedUserProfile(String userId) async {
     final prefs = await SharedPreferences.getInstance();
 
     // 1. Check for cached data

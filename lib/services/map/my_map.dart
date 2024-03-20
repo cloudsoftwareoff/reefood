@@ -4,6 +4,12 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reefood/constant/colors.dart';
 
+class MarkerData {
+  final LatLng location;
+  final String name;
+
+  MarkerData(this.location, this.name);
+}
 // ignore: must_be_immutable
 class MapScreen extends StatefulWidget {
   static String id = '/MapScreen';
@@ -21,12 +27,6 @@ class MapScreen extends StatefulWidget {
 
   @override
   _MapScreenState createState() => _MapScreenState();
-}
-class MarkerData {
-  final LatLng location;
-  final String name;
-
-  MarkerData(this.location, this.name);
 }
 class _MapScreenState extends State<MapScreen> {
   Position? _currentPosition;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:reefood/components/card_shimmer.dart';
 import 'package:reefood/functions/distance.dart';
 import 'package:reefood/functions/sharedpref.dart';
 import 'package:reefood/model/business.dart';
@@ -18,7 +19,6 @@ import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
 import 'package:reefood/constant/colors.dart';
 
-
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
 
@@ -29,160 +29,153 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-LocationProvider locationProvider = LocationProvider();
+  LocationProvider locationProvider = LocationProvider();
 //   LocationInfo? locationInfo;
-late Future<LocationInfo> locationInfoFuture;
-bool isLoading=false;
+  late Future<LocationInfo> locationInfoFuture;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-
     return isLoading
         ? const LoadingHomeScreen()
         : SafeArea(
-          child: Scaffold(
-            backgroundColor:scheme.background,
-             // drawer: MyDrawer(parentContext: context),
+            child: Scaffold(
+              backgroundColor: scheme.background,
+              // drawer: MyDrawer(parentContext: context),
               body: FutureBuilder<Position>(
-                future: getSavedLocationFromSharedPreferences(),
-                  builder:(context,snapshot){
+                  future: getSavedLocationFromSharedPreferences(),
+                  builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingHomeScreen();
-                  }
-                  else{
-                    Position mypostion = snapshot.data!;
-                    return
-                    CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                
-                SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TopAppBar(),
-                          SearchBusiness(),
-                          // Container(
-                          //   padding: const EdgeInsets.all(15),
-                          
-                          //   child: buildCollage(context, height),
-                          // ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return const LoadingHomeScreen();
+                    } else {
+                      Position mypostion = snapshot.data!;
+                      return CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TopAppBar(),
+                                SearchBusiness(),
+                                // Container(
+                                //   padding: const EdgeInsets.all(15),
+
+                                //   child: buildCollage(context, height),
+                                // ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Recommended For You',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Recommended For You',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'See All',
+                                            style: TextStyle(
+                                              color: scheme.primary,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      
                                     ),
-                                  Text(
-                                'See All',
-                                style: TextStyle(
-                                  color: scheme.primary,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                                    const SizedBox(height: 5),
+                                    FoodWidget(
+                                        mypostion: mypostion, near: false)
                                   ],
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                                FoodWidget(height: height, mypostion: mypostion,
-                                near:false
-                                )
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                                Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Text(
-                                  'Food near you',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                                FoodWidget(height: height, mypostion: mypostion,
-                                near: true,
-                              )
-                            ],
-                          ),
-
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Business List',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      child: Text(
+                                        'Food near you',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                      
                                     ),
-                                  Text(
-                                'See All',
-                                style: TextStyle(
-                                  color: scheme.primary,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                                    const SizedBox(height: 15),
+                                    FoodWidget(
+                                      mypostion: mypostion,
+                                      near: true,
+                                    )
                                   ],
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                                Container(
-                                  height: 200,
-                                  
-                                  child: BusinessList())
-                            ],
-                          ),
 
-                          
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Business List',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'See All',
+                                            style: TextStyle(
+                                              color: scheme.primary,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                        height: 200, child: BusinessList())
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
-                      ),
-                    ),
-                  ],
-                  
-                );
-                  }}),
-              
-              
-              bottomNavigationBar: 
-              // op.currentOrder != null
-              //     ? const ActiveOrderBottomContainer()
-              //     : 
+                      );
+                    }
+                  }),
+
+              bottomNavigationBar:
+                  // op.currentOrder != null
+                  //     ? const ActiveOrderBottomContainer()
+                  //     :
                   const SizedBox(),
             ),
-        );
+          );
   }
 
   Column buildCollage(BuildContext context, double height) {
@@ -194,7 +187,7 @@ bool isLoading=false;
           borderRadius: BorderRadius.circular(10),
           child: InkWell(
             onTap: () {
-             // Navigator.pushNamed(context, FoodDeliveryScreen.routeName);
+              // Navigator.pushNamed(context, FoodDeliveryScreen.routeName);
             },
             child: Container(
               height: height * 0.20,
@@ -212,7 +205,8 @@ bool isLoading=false;
                     right: 5,
                     child: Image(
                       width: 150,
-                      image: NetworkImage('https://i.pinimg.com/564x/70/0d/f5/700df5b522327cf57c58a26480ceafbd.jpg'),
+                      image: NetworkImage(
+                          'https://i.pinimg.com/564x/70/0d/f5/700df5b522327cf57c58a26480ceafbd.jpg'),
                     ),
                   ),
                   Padding(
@@ -253,7 +247,7 @@ bool isLoading=false;
                 child: Container(
                   height: height * 0.35,
                   decoration: BoxDecoration(
-                    color:scheme.onPrimary,
+                    color: scheme.onPrimary,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.grey[300]!),
                   ),
@@ -320,8 +314,7 @@ bool isLoading=false;
                               fit: BoxFit.fill,
                               //width: 100,
                               image: NetworkImage(
-                                
-                                'https://i.pinimg.com/564x/e6/80/32/e6803216f6ebbb31ce03485d977b9d54.jpg'),
+                                  'https://i.pinimg.com/564x/e6/80/32/e6803216f6ebbb31ce03485d977b9d54.jpg'),
                             ),
                           ),
                           Padding(
@@ -415,24 +408,24 @@ bool isLoading=false;
 class FoodWidget extends StatelessWidget {
   const FoodWidget({
     Key? key,
-    required this.height,
     required this.mypostion,
     required this.near,
   }) : super(key: key);
 
   final bool near;
-  final double height;
+
   final Position mypostion;
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return SizedBox(
       height: height * 0.3,
       child: FutureBuilder<List<SaveFood>>(
         future: FoodDB().queryFood(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Foodshimmer();
+            return BuildShimmerCard(context);
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

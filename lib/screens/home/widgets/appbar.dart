@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reefood/constant/colors.dart';
+import 'package:reefood/model/user_profile.dart';
+import 'package:reefood/services/users/xUser.dart';
 
 class MyAppBar extends StatelessWidget {
-
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Widget title;
@@ -14,8 +16,8 @@ class MyAppBar extends StatelessWidget {
     super.key,
     this.backgroundColor,
     this.foregroundColor,
-   required this.title,
-   required this.subtitle,
+    required this.title,
+    required this.subtitle,
     this.leadingIcon,
     this.onTap,
   });
@@ -23,15 +25,15 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final cp = context.watch<CartProvider>();
-     int totalQuantity = 0;
+    int totalQuantity = 0;
 
     // for (int i = 0; i < cp.cart.length; i++) {
     //   totalQuantity += cp.cart[i].quantity;
     // }
 
     return SliverAppBar(
-       foregroundColor: Colors.white,//foregroundColor ?? Colors.white,
-      backgroundColor:Colors.pink,// backgroundColor ?? scheme.primary,
+      foregroundColor: Colors.white, //foregroundColor ?? Colors.white,
+      backgroundColor: Colors.pink, // backgroundColor ?? scheme.primary,
       expandedHeight: 110,
       collapsedHeight: 60,
       forceElevated: true,
@@ -50,7 +52,7 @@ class MyAppBar extends StatelessWidget {
           onPressed: () {},
           icon: Icon(
             Icons.favorite_border_rounded,
-            color:  Colors.white ,
+            color: Colors.white,
           ),
         ),
         Stack(
@@ -58,13 +60,10 @@ class MyAppBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-               // Navigator.pushNamed(context, CartScreen.routeName);
+                // Navigator.pushNamed(context, CartScreen.routeName);
               },
               padding: EdgeInsets.zero,
-              icon: Icon(
-                Icons.navigate_before,
-                color:  Colors.white 
-              ),
+              icon: Icon(Icons.navigate_before, color: Colors.white),
             ),
             totalQuantity == 0
                 ? const SizedBox()
@@ -104,11 +103,7 @@ class MyAppBar extends StatelessWidget {
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          title ,
-            
-              subtitle 
-          ],
+          children: [title, subtitle],
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -160,7 +155,6 @@ class MyAppBar extends StatelessWidget {
   }
 }
 
-
 class AppBarUI extends StatefulWidget {
   const AppBarUI({super.key});
 
@@ -172,19 +166,17 @@ class _AppBarUIState extends State<AppBarUI> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor:Colors.transparent,
+      backgroundColor: Colors.transparent,
       floating: true,
       pinned: true,
-      title: 
-      Padding(
-          padding: const EdgeInsets.all(18.0),
+      title: Padding(
+        padding: const EdgeInsets.all(18.0),
         child: Column(
-        children: [
-          TopAppBar(),
-          
-        ],
-      ),),
-       
+          children: [
+            TopAppBar(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -198,62 +190,77 @@ class TopAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Left side content
-                Row(
-                  children: [
-                    Icon(
-                      Icons.radio_button_checked_sharp,
-                      color: scheme.primary,
-                      size: 24,
-                    ),
-                    SizedBox(width: 8), // Adjust the spacing as needed
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      child: FutureBuilder<UserProfile?>(
+          future: UserProfileProvider()
+              .userProfileById(FirebaseAuth.instance.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("Error: ${snapshot.error}"),
+              );
+            } else {
+              UserProfile userProfile = snapshot.data!;
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Tunis, Tunis, Tunisia",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            color: scheme.primary,
-                          ),
+                        // Left side content
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.radio_button_checked_sharp,
+                              color: scheme.primary,
+                              size: 24,
+                            ),
+                            SizedBox(width: 8), // Adjust the spacing as needed
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${userProfile.ipLocation}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: scheme.primary,
+                                  ),
+                                ),
+                                Text(
+                                  "Within 10Km",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: scheme.secondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Text(
-                          "Within 10Km",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: scheme.secondary,
-                          ),
+
+                        // Right side content
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: scheme.primary,
+                          size: 24,
                         ),
                       ],
                     ),
-                  ],
-                ),
-
-                // Right side content
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: scheme.primary,
-                  size: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                  ),
+                ],
+              );
+            }
+          }),
     );
   }
 }
-
 
 class SearchBusiness extends StatelessWidget {
   const SearchBusiness({
@@ -272,13 +279,13 @@ class SearchBusiness extends StatelessWidget {
           //width: doubsle.infinity,
           height: 38,
           decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Colors.grey,
-            width: 1.0,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
+            ),
           ),
-      ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -300,7 +307,6 @@ class SearchBusiness extends StatelessWidget {
                   Icons.clear_outlined,
                   color: Colors.grey[700],
                 ),
-
               ],
             ),
           ),

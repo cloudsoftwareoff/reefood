@@ -18,6 +18,12 @@ class _ChooseLocationState extends State<ChooseLocation> {
   String mylocation = "unset";
   double latitude = 35.0820361;
   double longitude = 9.8719635;
+  
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

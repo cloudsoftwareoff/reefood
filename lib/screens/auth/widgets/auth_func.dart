@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:reefood/components/auth_comp.dart';
 import 'package:reefood/model/user_profile.dart';
-import 'package:reefood/screens/auth/login_screen.dart';
 import 'package:reefood/services/api/ip_lookup.dart';
 import 'package:reefood/services/users/userAuth.dart';
 import 'package:reefood/services/users/xUser.dart';
@@ -41,7 +40,7 @@ Future<void> signIn(
       signUpAlert(
         context: context,
         onPressed: () {
-          Navigator.popAndPushNamed(context, LoginScreen.id);
+          //Navigator.popAndPushNamed(context, MainAuthScreen(loginRequest: false,));
         },
         title: 'Login Failed',
         desc: 'Something went wrong',

@@ -14,6 +14,7 @@ import 'package:reefood/screens/home/widgets/loading_home.dart';
 import 'package:reefood/screens/home/widgets/my_drawer.dart';
 import 'package:reefood/screens/home/widgets/food_card.dart';
 import 'package:reefood/screens/productDetail/food_details.dart';
+import 'package:reefood/screens/viewFoodList/see_all.dart';
 import 'package:reefood/services/Food/business_db.dart';
 import 'package:reefood/services/Food/food_db.dart';
 import 'package:reefood/services/location_provider.dart';
@@ -88,12 +89,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          Text(
-                                            'See All',
-                                            style: TextStyle(
-                                              color: scheme.primary,
-                                              decoration:
-                                                  TextDecoration.underline,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SeeAll(
+                                                          myPosition: mypostion,
+                                                        )),
+                                              );
+                                            },
+                                            child: Text(
+                                              'See All',
+                                              style: TextStyle(
+                                                color: scheme.primary,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -419,13 +432,14 @@ class FoodWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    // ! find solution instead of this sized box
     return SizedBox(
-      height: height * 0.3,
+      height: height * 0.22,
       child: FutureBuilder<List<SaveFood>>(
         future: FoodDB().queryFood(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return BuildShimmerCard(context);
+            return ShimmerFoodCard();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -433,66 +447,57 @@ class FoodWidget extends StatelessWidget {
           } else {
             List<SaveFood> foodlist = snapshot.data!;
 
-            return ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: foodlist.length,
-              itemBuilder: (context, index) {
-                final fooditem = foodlist[index];
+            return Expanded(
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: foodlist.length,
+                itemBuilder: (context, index) {
+                  final fooditem = foodlist[index];
 
-                return FutureBuilder<Business>(
-                  future: BusinessDB().getBusinessById(fooditem.business_id),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else if (!snapshot.hasData) {
-                      return const Text('No data available');
-                    } else {
-                      Business business = snapshot.data!;
-                      double distance = calculateDistance(
-                        business.latitude,
-                        business.longitude,
-                        mypostion.latitude,
-                        mypostion.longitude,
-                      );
-
-                      print('Distance: $distance, Near: $near');
-
-                      if (distance > 20 && near) {
-                        print('Returning SizedBox');
-                        return SizedBox(width: 1);
+                  return FutureBuilder<Business>(
+                    future: BusinessDB().getBusinessById(fooditem.business_id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData) {
+                        return const Text('No data available');
                       } else {
-                        print('Returning FoodCard');
-                        return Row(
-                          children: [
-                            SizedBox(width: index == 0 ? 15 : 0),
-                            GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FoodDetailsScreen(
-                                    food: fooditem,
-                                    user_position: mypostion,
-                                  ),
-                                ),
-                              ),
-                              child: FoodCard(
+                        Business business = snapshot.data!;
+                        double distance = calculateDistance(
+                          business.latitude,
+                          business.longitude,
+                          mypostion.latitude,
+                          mypostion.longitude,
+                        );
+
+                        print('Distance: $distance, Near: $near');
+
+                        if (distance > 20 && near) {
+                          print('Returning SizedBox');
+                          return SizedBox(width: 1);
+                        } else {
+                          print('Returning FoodCard');
+                          return Row(
+                            children: [
+                              SizedBox(width: index == 0 ? 15 : 0),
+                              FoodCard(
                                 food: fooditem,
                                 user_position: mypostion,
                                 near: near,
                               ),
-                            ),
-                            SizedBox(
-                              width: index == foodlist.length - 1 ? 15 : 10,
-                            ),
-                          ],
-                        );
+                              SizedBox(
+                                width: index == foodlist.length - 1 ? 15 : 10,
+                              ),
+                            ],
+                          );
+                        }
                       }
-                    }
-                  },
-                );
-              },
+                    },
+                  );
+                },
+              ),
             );
           }
         },

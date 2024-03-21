@@ -83,8 +83,8 @@ void _changeIndex(int index) {
               iconData: FontAwesomeIcons.heart, text: 'Favorite'),
           FABBottomAppBarItem(
               iconData: FontAwesomeIcons.user, text: 'me'),
-               
-         
+              
+        
         ], height: 70,
       ),
       

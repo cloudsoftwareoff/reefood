@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:reefood/Providers/liked_food.dart';
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/functions/sharedpref.dart';
 import 'package:reefood/model/food.dart';
@@ -30,8 +32,12 @@ class _UserFavoriteState extends State<UserFavorite> {
     prefs = await SharedPreferences.getInstance();
     likedFoodIds = prefs.getStringList("likedFoodIds") ?? [];
     foodlist = await FoodDB().queryFood();
-
-    setState(() {});
+    Provider.of<LikedFoodIdsProvider>(context, listen: false)
+        .updateLikedFoodIds(likedFoodIds);
+    if (mounted) {
+      setState(() {});
+      
+    }
   }
 
   SaveFood? findFoodById(String id) {
@@ -46,70 +52,76 @@ class _UserFavoriteState extends State<UserFavorite> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: FutureBuilder<Position>(
-        future: getSavedLocationFromSharedPreferences(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingHomeScreen();
-          } else if (snapshot.hasData) {
-            Position myPosition = snapshot.data!;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Your Favorites',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: likedFoodIds.length,
-                    itemBuilder: (context, index) {
-                      SaveFood? food = findFoodById(likedFoodIds[index]);
-                      if (food != null) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: FoodCard(
-                                  food: food,
-                                  user_position: myPosition,
-                                  near: false,
-                                ),
-                              ),
+      child: Consumer<LikedFoodIdsProvider>(
+        builder: (context, provider, _) {
+          List<String> likedFoodIds = provider.likedFoodIds;
+          return FutureBuilder<Position>(
+            future: getSavedLocationFromSharedPreferences(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingHomeScreen();
+              } else if (snapshot.hasData) {
+                Position myPosition = snapshot.data!;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Your Favorites',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        );
-                      } else {
-                        // Handle case when food is not found
-                        return SizedBox();
-                      }
-                    },
-                  ),
-                ),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return const Text('No data available');
-          }
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: likedFoodIds.length,
+                        itemBuilder: (context, index) {
+                          SaveFood? food = findFoodById(likedFoodIds[index]);
+                          if (food != null) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: FoodCard(
+                                      food: food,
+                                      user_position: myPosition,
+                                      near: false,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            // Handle case when food is not found
+                            return SizedBox();
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                return const Text('No data available');
+              }
+            },
+          );
         },
       ),
     );

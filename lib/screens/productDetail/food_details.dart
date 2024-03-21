@@ -83,10 +83,14 @@ class FoodDetailsScreen extends StatelessWidget {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: FaIcon(
-                                                FontAwesomeIcons.chevronLeft,
-                                                color: scheme.primary,
-                                                size: 18,
+                                              child: GestureDetector(
+                                                onTap: () =>
+                                                    Navigator.pop(context),
+                                                child: FaIcon(
+                                                  FontAwesomeIcons.chevronLeft,
+                                                  color: scheme.primary,
+                                                  size: 18,
+                                                ),
                                               ),
                                             ),
                                           ),

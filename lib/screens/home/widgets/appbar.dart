@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/services/users/xUser.dart';
@@ -215,8 +216,8 @@ class TopAppBar extends StatelessWidget {
                         // Left side content
                         Row(
                           children: [
-                            Icon(
-                              Icons.radio_button_checked_sharp,
+                            FaIcon(
+                              FontAwesomeIcons.locationDot,
                               color: scheme.primary,
                               size: 24,
                             ),

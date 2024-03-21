@@ -11,6 +11,7 @@ import 'package:reefood/screens/mainscreen/mainscreen.dart';
 import 'package:reefood/screens/me_tab/userprofile_page.dart';
 import 'package:reefood/services/users/xUser.dart';
 import 'package:reefood/wrapper.dart';
+import 'package:reefood/Providers/liked_food.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // <----
@@ -18,10 +19,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => UserProfileProvider(),
-      child: MyApp(),
-    ),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => UserProfileProvider()),
+      ChangeNotifierProvider(create: (context) => LikedFoodIdsProvider()),
+    ], child: MyApp()),
   );
 }
 

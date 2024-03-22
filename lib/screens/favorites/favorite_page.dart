@@ -36,7 +36,6 @@ class _UserFavoriteState extends State<UserFavorite> {
         .updateLikedFoodIds(likedFoodIds);
     if (mounted) {
       setState(() {});
-      
     }
   }
 
@@ -54,7 +53,8 @@ class _UserFavoriteState extends State<UserFavorite> {
     return SafeArea(
       child: Consumer<LikedFoodIdsProvider>(
         builder: (context, provider, _) {
-          List<String> likedFoodIds = provider.likedFoodIds;
+          List<String> likedFoodIds =
+              context.watch<LikedFoodIdsProvider>().likedFoodIds;
           return FutureBuilder<Position>(
             future: getSavedLocationFromSharedPreferences(),
             builder: (context, snapshot) {
@@ -100,7 +100,6 @@ class _UserFavoriteState extends State<UserFavorite> {
                                     child: FoodCard(
                                       food: food,
                                       user_position: myPosition,
-                                      near: false,
                                     ),
                                   ),
                                 ),

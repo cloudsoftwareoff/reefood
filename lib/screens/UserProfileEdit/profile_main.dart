@@ -9,7 +9,7 @@ import 'package:reefood/screens/UserProfileEdit/pages/edit_email.dart';
 import 'package:reefood/screens/UserProfileEdit/pages/edit_image.dart';
 import 'package:reefood/screens/UserProfileEdit/pages/edit_name.dart';
 import 'package:reefood/screens/UserProfileEdit/pages/edit_phone.dart';
-import 'package:reefood/services/users/XUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 
 // "Edit Profile" Screen
 class EditProfilePage extends StatefulWidget {

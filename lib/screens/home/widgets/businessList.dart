@@ -14,7 +14,7 @@ class _BusinessListState extends State<BusinessList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _businessDB.queryFood(),
+      future: _businessDB.queryBusiness(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();

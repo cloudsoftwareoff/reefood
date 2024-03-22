@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:reefood/Providers/business.provider.dart';
+import 'package:reefood/Providers/food_provider.dart';
+import 'package:reefood/Providers/near_food_provider.dart';
 import 'package:reefood/components/card_shimmer.dart';
 import 'package:reefood/functions/distance.dart';
 import 'package:reefood/functions/sharedpref.dart';
@@ -66,11 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 TopAppBar(),
                                 SearchBusiness(),
-                                // Container(
-                                //   padding: const EdgeInsets.all(15),
-
-                                //   child: buildCollage(context, height),
-                                // ),
+    
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     const SizedBox(height: 5),
                                     FoodWidget(
-                                        mypostion: mypostion, near: false)
+                                        mypostion: mypostion)
                                   ],
                                 ),
                                 Column(
@@ -133,9 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 15),
-                                    FoodWidget(
+                                    NearFoodWidget(
                                       mypostion: mypostion,
-                                      near: true,
+                                    
                                     )
                                   ],
                                 ),
@@ -422,86 +422,121 @@ class FoodWidget extends StatelessWidget {
   const FoodWidget({
     Key? key,
     required this.mypostion,
-    required this.near,
+   
   }) : super(key: key);
 
-  final bool near;
+
 
   final Position mypostion;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    final foodProvider = Provider.of<FoodProvider>(context);
+    final businessProvider = Provider.of<BusinessProvider>(context);
     // ! find solution instead of this sized box
     return SizedBox(
-      height: height * 0.22,
-      child: FutureBuilder<List<SaveFood>>(
-        future: FoodDB().queryFood(),
+        height: height * 0.22,
+        child: Expanded(
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: foodProvider.foodList.length,
+            itemBuilder: (context, index) {
+              final fooditem = foodProvider.foodList[index];
+              final business =
+                  businessProvider.getBusinessById(fooditem.business_id);
+              double distance = calculateDistance(
+                business!.latitude,
+                business.longitude,
+                mypostion.latitude,
+                mypostion.longitude,
+              );
+
+                return Row(
+                  children: [
+                    SizedBox(width: index == 0 ? 15 : 0),
+                    FoodCard(
+                      food: fooditem,
+                      user_position: mypostion,
+                    
+                    ),
+                    SizedBox(
+                      width:
+                          index == foodProvider.foodList.length - 1 ? 15 : 10,
+                    ),
+                  ],
+                );
+              
+            },
+          ),
+        ));
+  }
+}
+
+class NearFoodWidget extends StatelessWidget {
+  const NearFoodWidget({
+    Key? key,
+    required this.mypostion,
+  }) : super(key: key);
+
+  final Position mypostion;
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    final foodProvider = Provider.of<FoodProvider>(context);
+    final businessProvider = Provider.of<BusinessProvider>(context);
+
+    // ! find solution instead of this sized box
+    return FutureBuilder<List<Business>>(
+        future: Provider.of<NearBusinessProvider>(context, listen: false)
+            .fetchBusinessNearUser(
+          mypostion.latitude,
+          mypostion.longitude,
+        ),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return ShimmerFoodCard();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text('No data available');
-          } else {
-            List<SaveFood> foodlist = snapshot.data!;
-
-            return Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: foodlist.length,
-                itemBuilder: (context, index) {
-                  final fooditem = foodlist[index];
-
-                  return FutureBuilder<Business>(
-                    future: BusinessDB().getBusinessById(fooditem.business_id),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else if (!snapshot.hasData) {
-                        return const Text('No data available');
-                      } else {
-                        Business business = snapshot.data!;
-                        double distance = calculateDistance(
-                          business.latitude,
-                          business.longitude,
-                          mypostion.latitude,
-                          mypostion.longitude,
-                        );
-
-                        print('Distance: $distance, Near: $near');
-
-                        if (distance > 20 && near) {
-                          print('Returning SizedBox');
-                          return SizedBox(width: 1);
-                        } else {
-                          print('Returning FoodCard');
-                          return Row(
-                            children: [
-                              SizedBox(width: index == 0 ? 15 : 0),
-                              FoodCard(
-                                food: fooditem,
-                                user_position: mypostion,
-                                near: near,
-                              ),
-                              SizedBox(
-                                width: index == foodlist.length - 1 ? 15 : 10,
-                              ),
-                            ],
-                          );
-                        }
-                      }
-                    },
-                  );
-                },
-              ),
-            );
+          List<Business>? nearBusiness = snapshot.data;
+          if (nearBusiness == null || nearBusiness.isEmpty) {
+            return Center(child:
+            Text("Sorry no food need saving near you",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              color: scheme.secondary
+            ),
+            ));
           }
-        },
-      ),
-    );
+          return SizedBox(
+              height: height * 0.22,
+              child: Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: foodProvider.foodList.length,
+                  itemBuilder: (context, index) {
+                    final fooditem = foodProvider.foodList[index];
+                                            businessProvider.getBusinessById(fooditem.business_id);
+
+                    return Row(
+                      children: [
+                        SizedBox(width: index == 0 ? 15 : 0),
+                        FoodCard(
+                          food: fooditem,
+                          user_position: mypostion,
+                        
+                        ),
+                        SizedBox(
+                          width: index == foodProvider.foodList.length - 1
+                              ? 15
+                              : 10,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ));
+        });
   }
 }

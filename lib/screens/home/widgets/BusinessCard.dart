@@ -12,7 +12,7 @@ class BusinessCard extends StatelessWidget {
     return Container(
       height: 120, // Fixed height for the card
       child: Card(
-        color: scheme.background,
+        color: Colors.white,
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),

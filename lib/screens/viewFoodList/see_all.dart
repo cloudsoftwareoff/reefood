@@ -70,7 +70,7 @@ class _SeeAllState extends State<SeeAll> {
                                   child: FoodCard(
                                     food: food,
                                     user_position: widget.myPosition,
-                                    near: false,
+                                    
                                   ),
                                 ),
                               ),

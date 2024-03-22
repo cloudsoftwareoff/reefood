@@ -2,6 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:reefood/Providers/business.provider.dart';
+import 'package:reefood/Providers/food_provider.dart';
+import 'package:reefood/Providers/near_food_provider.dart';
+import 'package:reefood/Providers/user_Provider.dart';
 import 'package:reefood/app_localizations.dart';
 import 'package:reefood/constant/theme.dart';
 import 'package:reefood/firebase_options.dart';
@@ -9,7 +13,7 @@ import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 import 'package:reefood/screens/auth/auth_screen.dart';
 import 'package:reefood/screens/mainscreen/mainscreen.dart';
 import 'package:reefood/screens/me_tab/userprofile_page.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 import 'package:reefood/wrapper.dart';
 import 'package:reefood/Providers/liked_food.dart';
 
@@ -20,8 +24,11 @@ void main() async {
   );
   runApp(
     MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => UserProfileProvider()),
+      ChangeNotifierProvider(create: (context) => CurrentUserProvider()),
+      ChangeNotifierProvider(create: (context) => NearBusinessProvider()),
+      ChangeNotifierProvider(create: (context) => FoodProvider()),
       ChangeNotifierProvider(create: (context) => LikedFoodIdsProvider()),
+      ChangeNotifierProvider(create: (context) => BusinessProvider()),
     ], child: MyApp()),
   );
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:reefood/screens/mainscreen/mainscreen.dart';
 import 'package:reefood/screens/splash/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:reefood/screens/splash/welcome.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);

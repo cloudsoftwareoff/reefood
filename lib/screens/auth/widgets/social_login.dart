@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/home/home_screen.dart';
 import 'package:reefood/services/api/ip_lookup.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 import 'package:reefood/services/users/userAuth.dart';
 
 

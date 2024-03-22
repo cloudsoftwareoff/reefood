@@ -5,7 +5,7 @@ import 'package:reefood/model/business.dart';
 class BusinessDB extends ChangeNotifier {
   List<Business> businessList = [];
 
-  Future<List<Business>> queryFood() async {
+  Future<List<Business>> queryBusiness() async {
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance.collection('business').get();
 

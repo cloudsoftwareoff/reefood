@@ -87,9 +87,9 @@ Future<String?> getLocationfromcords(double latitude,double longitude) async {
       List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-     
+    
           return "${place.name}, ${place.locality}, ${place.country}";
-       
+      
       }
     } catch (e) {
       print("Error getting location: $e");

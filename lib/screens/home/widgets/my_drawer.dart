@@ -7,7 +7,7 @@ import 'package:reefood/components/alert_dialog.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/UserProfileEdit/profile_main.dart';
 
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 
 class MyDrawer extends StatelessWidget {
   final BuildContext parentContext;

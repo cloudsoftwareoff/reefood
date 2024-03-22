@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reefood/screens/discover/discover_page.dart';
 import 'package:reefood/screens/favorites/favorite_page.dart';
 import 'package:reefood/screens/me_tab/userprofile_page.dart';
 import 'package:reefood/screens/home/home_screen.dart';
@@ -29,25 +30,23 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static final List<Widget> _bodyContent = [
     HomeScreen(),
-    BusinessList(),
+    DiscoverPage(),
     UserFavorite(),
     ME()
-
   ];
 
-void _changeIndex(int index) {
-  print(index);
-  if (index >= 0 && index < _bodyContent.length) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _changeIndex(int index) {
+    print(index);
+    if (index >= 0 && index < _bodyContent.length) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,39 +55,29 @@ void _changeIndex(int index) {
       body: Center(
         child: _bodyContent.elementAt(_selectedIndex),
       ),
-  
-      
       bottomNavigationBar: FABBottomAppBar(
         backgroundColor: Color.fromARGB(255, 239, 236, 237),
         color: Colors.grey,
         //centerItemText: "",
-        selectedColor:scheme.primary,
+        selectedColor: scheme.primary,
         notchedShape: CircularNotchedRectangle(),
         iconSize: 20.0,
         onTabSelected: (index) {
           setState(() {
-            
             _changeIndex(index);
           });
-
-    
         },
         items: [
           // --------
           FABBottomAppBarItem(iconData: FontAwesomeIcons.home, text: 'Explore'),
           FABBottomAppBarItem(iconData: FontAwesomeIcons.store, text: 'Browse'),
-        
 
           FABBottomAppBarItem(
               iconData: FontAwesomeIcons.heart, text: 'Favorite'),
-          FABBottomAppBarItem(
-              iconData: FontAwesomeIcons.user, text: 'me'),
-              
-        
-        ], height: 70,
+          FABBottomAppBarItem(iconData: FontAwesomeIcons.user, text: 'me'),
+        ],
+        height: 70,
       ),
-      
-      
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:reefood/screens/me_tab/widgets/chart_row.dart';
 import 'package:reefood/screens/me_tab/widgets/shimmer/me_tab_shimmer.dart';
 
 import 'package:reefood/screens/me_tab/widgets/user_row.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 
 class UserData extends StatefulWidget {
   const UserData({

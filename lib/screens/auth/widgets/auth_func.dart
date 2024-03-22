@@ -6,7 +6,7 @@ import 'package:reefood/components/auth_comp.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/services/api/ip_lookup.dart';
 import 'package:reefood/services/users/userAuth.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 
 Future<void> signIn(
     {required String email,

@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfileProvider extends ChangeNotifier {
   List<UserProfile> _userProfiles = [];
+  UserProfile? myProfile;
+
 
   List<UserProfile> get userProfiles => _userProfiles;
 
@@ -43,7 +45,7 @@ class UserProfileProvider extends ChangeNotifier {
   Future<UserProfile?> userProfileById(String id) async {
     try {
       // Fetch user profile
-    
+
       final QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance
               .collection('users')

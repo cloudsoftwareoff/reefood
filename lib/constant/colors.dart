@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const ColorScheme scheme = ColorScheme(
-  background: Color(0xFFF5F5F5),
+  background: Color(0xfffbf8),
   surface: Color(0xFFFFFFFF),
   primary: Color(0xFF218644),
   secondary: Color(0xFFF3B91A),

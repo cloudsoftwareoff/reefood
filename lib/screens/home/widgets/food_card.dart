@@ -11,18 +11,18 @@ import 'package:reefood/model/business.dart';
 import 'package:reefood/model/user_profile.dart';
 import 'package:reefood/screens/productDetail/food_details.dart';
 import 'package:reefood/services/Food/business_db.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FoodCard extends StatefulWidget {
   final Position user_position;
   final SaveFood food;
-  final bool near;
+
   const FoodCard(
       {super.key,
       required this.food,
       required this.user_position,
-      required this.near});
+      });
 
   @override
   State<FoodCard> createState() => _FoodCardState();
@@ -93,7 +93,7 @@ class _FoodCardState extends State<FoodCard> {
             ));
       },
       child: Card(
-        color: scheme.background,
+        color: Colors.white,
         elevation: 14,
         child: FutureBuilder<Business>(
             future: BusinessDB().getBusinessById(widget.food.business_id),
@@ -109,9 +109,7 @@ class _FoodCardState extends State<FoodCard> {
                     business.longitude,
                     widget.user_position.latitude,
                     widget.user_position.longitude);
-                if (distance > 20 && widget.near) {
-                  return const Text('No data available');
-                }
+                
 
                 if (likedFoodIds.contains(widget.food.id)) {
                   liked = true;

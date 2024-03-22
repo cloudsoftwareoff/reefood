@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reefood/constant/colors.dart';
 import 'package:reefood/model/user_profile.dart';
-import 'package:reefood/services/users/xUser.dart';
+import 'package:reefood/services/users/userdb.dart';
 
 class MyAppBar extends StatelessWidget {
   final Color? backgroundColor;

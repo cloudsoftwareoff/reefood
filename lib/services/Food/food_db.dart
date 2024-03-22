@@ -1,10 +1,10 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+
 import 'package:reefood/model/food.dart';
 
-class FoodDB extends ChangeNotifier{
+class FoodDB {
 
 List<SaveFood> foodlist=[]; 
 
